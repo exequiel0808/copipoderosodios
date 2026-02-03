@@ -1,1 +1,181 @@
-css /* --- VARIABLES DE DISEÑO --- */ :root { --azul-oscuro: #001f3f; /* Azul Medianoche */ --azul-fondo: #001329; /* Azul más profundo para secciones */ --dorado: #d4af37; /* Dorado Metálico */ --dorado-brillante: #f1c40f; /* Dorado para hovers */ --blanco: #ffffff; --gris-claro: #f4f4f4; --fuente-titulos: 'Playfair Display', serif; --fuente-cuerpo: 'Montserrat', sans-serif; } /* --- ESTILOS GENERALES --- */ * { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: var(--fuente-cuerpo); line-height: 1.6; color: #333; background-color: var(--blanco); scroll-behavior: smooth; overflow-x: hidden; } .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; } /* --- NAVEGACIÓN --- */ .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 8%; background: var(--azul-oscuro); color: white; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); } .logo { font-family: var(--fuente-titulos); font-size: 1.6rem; letter-spacing: 1px; } .logo span { color: var(--dorado); margin-left: 5px; } .nav-links { display: flex; list-style: none; } .nav-links li { margin-left: 2.5rem; } .nav-links a { color: white; text-decoration: none; font-size: 0.9rem; font-weight: 400; text-transform: uppercase; transition: 0.3s; } .nav-links a:hover { color: var(--dorado); } /* --- SECCIÓN HERO (PRINCIPAL) --- */ .hero { height: 100vh; background: linear-gradient(rgba(0, 31, 63, 0.75), rgba(0, 31, 63, 0.75)), url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&q=80'); /* Imagen espiritual de fondo */ background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; text-align: center; color: white; padding-top: 80px; } .hero-content h1 { font-family: var(--fuente-titulos); font-size: 4rem; margin-bottom: 1rem; animation: fadeInUp 1s ease; } .hero-content p { font-size: 1.2rem; margin-bottom: 2.5rem; max-width: 700px; margin-left: auto; margin-right: auto; } /* --- BOTONES --- */ .hero-btns .btn-gold { background: var(--dorado); color: var(--azul-oscuro); padding: 1rem 2.5rem; text-decoration: none; font-weight: 700; border-radius: 4px; margin: 0.5rem; display: inline-block; transition: 0.3s; } .hero-btns .btn-outline { border: 2px solid var(--dorado); color: white; padding: 1rem 2.5rem; text-decoration: none; font-weight: 600; border-radius: 4px; margin: 0.5rem; display: inline-block; transition: 0.3s; } .btn-gold:hover { background: var(--blanco); transform: translateY(-3px); } .btn-outline:hover { background: var(--dorado); color: var(--azul-oscuro); } /* --- SECCIONES --- */ .section { padding: 6rem 0; text-align: center; } .section-dark { padding: 6rem 0; background: var(--azul-fondo); color: white; text-align: center; } .title-gold { font-family: var(--fuente-titulos); font-size: 2.8rem; color: var(--dorado); margin-bottom: 3rem; position: relative; } .title-gold::after { content: ''; width: 60px; height: 3px; background: var(--dorado); position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); } /* --- TARJETAS NOSOTROS --- */ .grid-about { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; } .about-card { padding: 3rem; background: var(--gris-claro); border-radius: 8px; border-bottom: 4px solid var(--dorado); } .about-card h3 { font-family: var(--fuente-titulos); color: var(--azul-oscuro); margin-bottom: 1rem; font-size: 1.8rem; } /* --- PREGUNTAS (FAQ) --- */ .faq-container { max-width: 800px; margin: 0 auto; text-align: left; } .faq-item { background: rgba(255, 255, 255, 0.05); margin-bottom: 1rem; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 5px; } .faq-question { width: 100%; padding: 1.5rem; background: none; border: none; color: white; font-family: var(--fuente-cuerpo); font-size: 1.1rem; font-weight: 600; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; } .faq-answer { padding: 0 1.5rem 1.5rem; color: #ccc; display: none; /* Se activa con JS */ } /* --- FOOTER --- */ footer { background: var(--azul-oscuro); color: white; padding: 4rem 0 2rem; text-align: center; } .footer-content { margin-bottom: 2rem; } .social-links a { color: var(--dorado); margin: 0 1rem; text-decoration: none; font-size: 0.9rem; } .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; font-size: 0.8rem; color: #888; } /* --- ANIMACIONES --- */ @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } } /* --- RESPONSIVO --- */ @media (max-width: 768px) { .nav-links { display: none; } .hero-content h1 { font-size: 2.5rem; } .hero-content p { font-size: 1rem; } }
+/* --- ESTILO PROFESIONAL DE ALTA GAMA --- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@300;400;600;700&display=swap');
+
+:root {
+  --azul-prime: #002d5b;
+  --azul-deep: #001a33;
+  --dorado-lux: #c5a059;
+  --blanco-puro: #ffffff;
+  --sombra-soft: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #fcfcfc;
+  color: #2c3e50;
+  line-height: 1.8;
+}
+
+/* --- NAVBAR CRISTALINA --- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 10%;
+  background: rgba(0, 45, 91, 0.98);
+  backdrop-filter: blur(10px);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 2000;
+  border-bottom: 2px solid var(--dorado-lux);
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.logo span {
+  color: var(--dorado-lux);
+}
+
+.nav-links li {
+  display: inline-block;
+  margin-left: 30px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: var(--dorado-lux);
+}
+
+/* --- HERO CINEMATOGRÁFICO --- */
+.hero {
+  height: 100vh;
+  background: linear-gradient(rgba(0, 26, 51, 0.6), rgba(0, 26, 51, 0.8)), url('https://images.unsplash.com/photo-1515162305285-0293e4767cc2?q=80&w=2071&auto=format&fit=crop');
+  background-size: cover;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+}
+
+.hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 4.5rem;
+  font-style: italic;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  text-shadow: 2px 4px 10px rgba(0,0,0,0.5);
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  max-width: 600px;
+  margin: 0 auto 40px;
+  opacity: 0.9;
+}
+
+/* --- BOTONES DE ACCIÓN --- */
+.btn-gold {
+  background: var(--azul-prime);
+  color: white;
+  padding: 18px 45px;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 50px;
+  box-shadow: 0 10px 20px rgba(0, 45, 91, 0.3);
+  transition: 0.4s;
+  display: inline-block;
+}
+
+.btn-gold:hover {
+  background: var(--dorado-lux);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(197, 160, 89, 0.4);
+}
+
+/* --- SECCIONES ELEGANTES --- */
+.section {
+  padding: 100px 10%;
+  text-align: center;
+}
+
+.title-gold {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  color: var(--azul-prime);
+  margin-bottom: 50px;
+}
+
+.about-card {
+  background: white;
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: var(--sombra-soft);
+  border-top: 5px solid var(--dorado-lux);
+  transition: 0.3s;
+}
+
+.about-card:hover {
+  transform: scale(1.02);
+}
+
+/* --- FAQ OSCURO PROFESIONAL --- */
+.section-dark {
+  background: var(--azul-deep);
+  color: white;
+  padding: 100px 10%;
+}
+
+.faq-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(197, 160, 89, 0.2);
+  margin-bottom: 15px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.faq-question {
+  background: none;
+  width: 100%;
+  padding: 25px;
+  color: var(--dorado-lux);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  text-align: left;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* --- FOOTER --- */
+footer {
+  background: #000b1a;
+  color: #888;
+  padding: 60px 0;
+  text-align: center;
+}
