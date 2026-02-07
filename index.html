@@ -1,112 +1,227 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ministerio Palabra de Gracia | Excelencia en la Verdad</title>
-    <!-- CSS Mejorado -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Iconos Profesionales -->
+    <title>Poderoso es Dios | Un Espacio de Fe</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <!-- NAVEGACIÓN PREMIUM -->
-    <nav class="navbar">
-        <div class="logo">PALABRA<span>GRACIA</span></div>
-        <ul class="nav-links">
-            <li><a href="#inicio">INICIO</a></li>
-            <li><a href="#predicas">PRÉDICAS</a></li>
-            <li><a href="#nosotros">NOSOTROS</a></li>
-            <li><a href="#preguntas">FE</a></li>
-            <li><a href="#contacto">CONTACTO</a></li>
-        </ul>
-        <div class="burger">
-            <span></span><span></span><span></span>
+    <header class="navbar" id="header">
+        <div class="logo">
+            PODEROSO<span>DIOS</span>
         </div>
-    </nav>
 
-    <!-- HEADER CINEMATOGRÁFICO -->
-    <header id="inicio" class="hero">
-        <div class="hero-content">
-            <span class="pre-title">BIENVENIDOS AL MINISTERIO</span>
-            <h1>Predicando la Verdad que Transforma</h1>
-            <p>Una comunidad dedicada a la exaltación de Cristo y el estudio profundo de las Sagradas Escrituras.</p>
-            <div class="hero-btns">
-                <a href="#predicas" class="btn-gold">VER ÚLTIMA PRÉDICA</a>
-                <a href="#contacto" class="btn-outline">CONOCER MÁS</a>
-            </div>
+        <nav class="nav-links" id="navMenu">
+            <a href="#inicio">Inicio</a>
+            <a href="#identidad">Identidad</a>
+            <a href="#versiculos">Versículos</a>
+            <a href="#predicas">Prédicas</a>
+            <a href="#fe">Fe</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+
+        <div class="header-actions">
+            <button id="btnModoOscuro" class="btn-modo-oscuro">
+                <span id="iconoModo">🌙</span>
+            </button>
         </div>
     </header>
 
-    <!-- SECCIÓN NOSOTROS (DISEÑO LIMPIO) -->
-    <section id="nosotros" class="section">
-        <div class="container">
-            <h2 class="title-gold">Nuestra Identidad</h2>
-            <div class="grid-about">
-                <div class="about-card">
-                    <i class="fas fa-cross card-icon"></i>
-                    <h3>Nuestra Misión</h3>
-                    <p>Glorificar a Dios a través de la proclamación fiel de Su Palabra y el servicio al prójimo en amor.</p>
-                </div>
-                <div class="about-card">
-                    <i class="fas fa-dove card-icon"></i>
-                    <h3>Nuestra Visión</h3>
-                    <p>Ser un faro de esperanza y sana doctrina, formando discípulos que vivan para la gloria de Dios.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECCIÓN DE PREGUNTAS (ESTILO DARK) -->
-    <section id="preguntas" class="section-dark">
-        <div class="container">
-            <h2 class="title-gold">Fundamentos de Fe</h2>
-            <p class="subtitle">Respuestas bíblicas a preguntas esenciales</p>
+    <main>
+        <section class="hero" id="inicio" style="display: flex; flex-direction: column; align-items: center;">
             
-            <div class="faq-container">
-                <div class="faq-item">
-                    <button class="faq-question">
-                        ¿Quién es Dios?
-                        <i class="fas fa-plus"></i>
+            <div class="versiculo-del-dia" style="width: 100%; position: relative;">
+                
+                <div class="control-musica" style="display: flex; justify-content: flex-end; padding: 20px 5% 0 0;">
+                    <button class="btn-musica" id="btnMusicaVersiculos">
+                        <i class="fas fa-music"></i> <span>Música de Paz</span>
                     </button>
-                    <div class="faq-answer">
-                        <p>Dios es el único Dios verdadero, Creador de todo lo que existe, santo, eterno e infinito en poder y conocimiento, quien se ha revelado en tres personas: Padre, Hijo y Espíritu Santo.</p>
-                    </div>
+                    <audio id="audioVersiculos" loop>
+                        <source src="https://www.bensound.com/bensound-music/bensound-memories.mp3" type="audio/mpeg">
+                    </audio>
                 </div>
 
-                <div class="faq-item">
-                    <button class="faq-question">
-                        ¿Qué sucederá en el futuro?
-                        <i class="fas fa-plus"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Esperamos con fe el regreso glorioso de nuestro Señor Jesucristo, el juicio final y la restauración de todas las cosas en un cielo nuevo y una tierra nueva donde morará la justicia.</p>
+                <div class="versiculo-dia-container" style="text-align: center; padding: 20px 5% 40px 5%;">
+                    <span class="versiculo-dia-etiqueta">
+                        <i class="fas fa-star"></i> Palabra de Vida
+                    </span>
+                    <p id="texto-dia" class="versiculo-dia-texto" style="font-size: 2.2rem; max-width: 100%;">
+                        Cargando palabra de esperanza...
+                    </p>
+                    <span id="cita-dia" class="versiculo-dia-cita"></span>
+                </div>
+            </div>
+
+            <div class="hero-content" style="text-align: center; margin-top: 20px;">
+                <span class="pre-title">BIENVENIDO</span>
+                <h1>Dios es Amor</h1>
+                <p>Un espacio sagrado para fortalecer tu fe, encontrar esperanza y descansar profundamente en Su Palabra eterna.</p>
+                <div class="hero-btns">
+                    <a href="#versiculos" class="btn-gold">📖 LEER PALABRA</a>
+                    <a href="#oracion" class="btn-outline">🙏 PEDIR ORACIÓN</a>
+                    
+                </div>
+            </div>
+        </section>
+
+
+        <section class="section" id="identidad">
+            <div class="container">
+                <h2 class="title-gold">Nuestra Identidad</h2>
+                <div class="grid-identidad">
+                    <div class="about-card">
+                        <i class="fas fa-cross card-icon"></i>
+                        <h3>Misión</h3>
+                        <p>Glorificar a Dios a través de la proclamación fiel de Su Palabra y el servicio al prójimo en amor y verdad.</p>
+                    </div>
+                    <div class="about-card">
+                        <i class="fas fa-dove card-icon"></i>
+                        <h3>Visión</h3>
+                        <p>Ser una comunidad que refleja la luz de Cristo, transformando vidas mediante el Evangelio en todo el mundo.</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- PIE DE PÁGINA PROFESIONAL -->
+        <section class="section" id="versiculos" style="background-color: #f4f7f6;">
+            <div class="container">
+                <h2 class="title-gold">Alimento para el Alma</h2>
+                <div class="categorias-container" id="contenedorBotones"></div>
+                <div class="about-card card-versiculo">
+                    <p id="texto-biblico" style="transition: opacity 0.3s ease;">Selecciona una categoría para recibir una promesa...</p>
+                    <span id="cita-biblica" style="transition: opacity 0.3s ease; font-weight: 700; color: var(--dorado-lux);"></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-dark" id="predicas">
+            <div class="container">
+                <h2 class="title-gold" style="color: var(--dorado-lux);">Predicaciones</h2>
+                <div class="predicas-grid">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/xKiBuxEiQyY" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/xKiBuxEiQyY" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="fe">
+            <div class="container">
+                <h2 class="title-gold">Fundamentos de Fe</h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            ¿Quién es Dios? <i class="fas fa-plus"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Dios es el Creador eterno, santo e infinito en amor, quien se ha revelado como Padre, Hijo y Espíritu Santo.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            ¿Qué es la Salvación? <i class="fas fa-plus"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>La salvación es el regalo gratuito de Dios a través de la fe en Jesucristo, Su único Hijo, para perdón de pecados.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-oracion" id="oracion">
+            <div class="container">
+                <div class="oracion-header">
+                    <i class="fas fa-praying-hands oracion-icon"></i>
+                    <h2 class="oracion-titulo">¿Deseas que oremos por ti?</h2>
+                    <p class="oracion-subtitulo">Dios escucha cada clamor. Déjanos tu petición abajo.</p>
+                </div>
+
+                <div class="oracion-form-wrapper">
+                    <form id="formOracion" class="oracion-form">
+                        <div class="oracion-input-group">
+                            <input type="text" placeholder="Tu nombre completo" required>
+                        </div>
+                        <div class="oracion-input-group">
+                            <textarea rows="5" placeholder="Escribe aquí tu motivo de oración..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-oracion">
+                            Enviar petición 🙏
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="contacto">
+            <div class="container">
+                <h2 class="title-gold">Contáctanos</h2>
+                <div class="contacto-wrapper">
+                    <div class="contacto-info-box">
+                        <div class="info-item-lux">
+                            <i class="fas fa-envelope-open-text"></i>
+                            <div>
+                                <h4>Escríbenos</h4>
+                                <p>contacto@poderosodios.com</p>
+                            </div>
+                        </div>
+                        <div class="info-item-lux" style="margin-top: 30px;">
+                            <i class="fas fa-praying-hands"></i>
+                            <div>
+                                <h4>Peticiones</h4>
+                                <p>Estamos listos para orar por ti las 24 horas.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contacto-form-card">
+                        <form id="formContactoLux">
+                            <div class="input-group-lux">
+                                <label>Nombre Completo</label>
+                                <input type="text" placeholder="Tu nombre..." required>
+                            </div>
+                            <div class="input-group-lux">
+                                <label>Correo Electrónico</label>
+                                <input type="email" placeholder="tu@email.com" required>
+                            </div>
+                            <div class="input-group-lux">
+                                <label>¿En qué podemos ayudarte?</label>
+                                <textarea rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn-gold-block">
+                                Enviar Mensaje con Fe
+                            </button>
+                        </form>
+                    </div>
+                </div> 
+            </div> 
+        </section>
+    </main>
+
     <footer>
-        <div class="container footer-grid">
-            <div class="footer-info">
-                <div class="logo">PALABRA<span>GRACIA</span></div>
-                <p>Proclamando el Evangelio con excelencia y fidelidad.</p>
+        <div class="container">
+            <div class="logo">PODEROSO<span>DIOS</span></div>
+            <p>Llevando la Palabra de Vida con excelencia y amor.</p>
+            <div class="social-links" style="margin-top: 25px; font-size: 1.5rem;">
+                <a href="#" style="color: var(--dorado-lux); margin: 0 15px;"><i class="fab fa-facebook"></i></a>
+                <a href="#" style="color: var(--dorado-lux); margin: 0 15px;"><i class="fab fa-instagram"></i></a>
             </div>
-            <div class="footer-social">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Ministerio Cristiano Palabra de Gracia. Todos los derechos reservados.</p>
+            <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.5;">
+                &copy; 2025 Poderoso es Dios. Todos los derechos reservados.
+            </p>
         </div>
     </footer>
 
-    <!-- SCRIPT DE INTERACTIVIDAD -->
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
