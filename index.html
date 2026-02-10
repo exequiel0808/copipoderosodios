@@ -93,12 +93,24 @@
     </section>
 
     <!-- SECCIÓN SUBIR APK -->
-    <section class="upload-section" id="subir">
+    <section class="upload-section" id="subir" style="display: none;">
         <div class="container">
             <h2 class="section-title">
                 <i class="fas fa-cloud-upload-alt"></i> Subir Nueva APK
             </h2>
-            <div class="upload-card">
+            
+            <!-- Mensaje de acceso restringido -->
+            <div id="accessDenied" class="access-denied">
+                <i class="fas fa-lock"></i>
+                <h3>Área Protegida</h3>
+                <p>Necesitas la contraseña de administrador para subir APKs</p>
+                <button id="btnLoginFromSection" class="btn-login-section">
+                    <i class="fas fa-key"></i> Ingresar Contraseña
+                </button>
+            </div>
+            
+            <!-- Formulario de subida (solo visible para admin) -->
+            <div id="uploadFormContainer" class="upload-card" style="display: none;">
                 <form id="uploadForm">
                     <div class="form-grid">
                         <div class="form-group">
@@ -171,6 +183,33 @@
             <span class="modal-close">&times;</span>
             <div id="modalBody">
                 <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CONTRASEÑA -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content login-modal">
+            <span class="modal-close" id="closePasswordModal">&times;</span>
+            <div class="login-container">
+                <div class="login-header">
+                    <i class="fas fa-lock"></i>
+                    <h2>Acceso Administrador</h2>
+                    <p>Ingresa la contraseña para subir APKs</p>
+                </div>
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label><i class="fas fa-key"></i> Contraseña</label>
+                        <input type="password" id="adminPassword" required placeholder="••••••••" autocomplete="off">
+                    </div>
+                    <button type="submit" class="btn-upload">
+                        <i class="fas fa-sign-in-alt"></i> Verificar Contraseña
+                    </button>
+                </form>
+                <div id="passwordError" class="login-error" style="display: none;">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Contraseña incorrecta</span>
+                </div>
             </div>
         </div>
     </div>

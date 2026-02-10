@@ -33,9 +33,91 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+// ===== CONTRASEÑA DE ADMINISTRADOR =====
+// ⚠️ CAMBIA ESTA CONTRASEÑA POR LA QUE TÚ QUIERAS
+const ADMIN_PASSWORD = "admin123";
+
 // ===== VARIABLES GLOBALES =====
 let allApps = [];
 let currentCategory = 'todas';
+let isAdmin = false;
+// ===== AUTENTICACIÓN SIMPLE =====
+
+// Verificar contraseña al cargar la página
+if (localStorage.getItem('adminLoggedIn') === 'true') {
+  isAdmin = true;
+  showAdminUI();
+}
+
+// Mostrar UI de administrador
+function showAdminUI() {
+  isAdmin = true;
+  localStorage.setItem('adminLoggedIn', 'true');
+  
+  // Mostrar formulario de subida
+  document.getElementById('uploadFormContainer').style.display = 'block';
+  document.getElementById('accessDenied').style.display = 'none';
+  
+  // Mostrar sección de subir
+  document.getElementById('subir').style.display = 'block';
+  
+  showNotification('✅ Acceso concedido');
+}
+
+// Ocultar UI de administrador
+function hideAdminUI() {
+  isAdmin = false;
+  localStorage.removeItem('adminLoggedIn');
+  
+  // Ocultar formulario de subida
+  document.getElementById('uploadFormContainer').style.display = 'none';
+  document.getElementById('accessDenied').style.display = 'block';
+}
+
+// Función de verificación de contraseña
+function checkPassword(password) {
+  if (password === ADMIN_PASSWORD) {
+    showAdminUI();
+    closePasswordModal();
+    
+    // Scroll a la sección de subir
+    setTimeout(() => {
+      document.getElementById('uploadForm').scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+    
+    return true;
+  } else {
+    document.getElementById('passwordError').style.display = 'flex';
+    
+    // Ocultar error después de 3 segundos
+    setTimeout(() => {
+      document.getElementById('passwordError').style.display = 'none';
+    }, 3000);
+    
+    return false;
+  }
+}
+
+// Cerrar sesión
+function logout() {
+  hideAdminUI();
+  showNotification('👋 Sesión cerrada');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Abrir modal de contraseña
+function openPasswordModal() {
+  document.getElementById('passwordModal').style.display = 'block';
+  document.getElementById('adminPassword').focus();
+}
+
+// Cerrar modal de contraseña
+function closePasswordModal() {
+  document.getElementById('passwordModal').style.display = 'none';
+  document.getElementById('passwordForm').reset();
+  document.getElementById('passwordError').style.display = 'none';
+}
+
 
 // ===== CARGAR APLICACIONES DESDE FIREBASE =====
 async function loadApps() {
@@ -409,6 +491,34 @@ document.addEventListener('DOMContentLoaded', () => {
       closeModal();
     }
   });
+  
+  // ===== EVENT LISTENERS DE AUTENTICACIÓN =====
+  
+  // Botón para abrir modal desde sección de subir
+  const btnLoginFromSection = document.getElementById('btnLoginFromSection');
+  if (btnLoginFromSection) {
+    btnLoginFromSection.addEventListener('click', openPasswordModal);
+  }
+  
+  // Formulario de contraseña
+  document.getElementById('passwordForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const password = document.getElementById('adminPassword').value;
+    checkPassword(password);
+  });
+  
+  // Cerrar modal de contraseña
+  document.getElementById('closePasswordModal').addEventListener('click', closePasswordModal);
+  window.addEventListener('click', (e) => {
+    if (e.target.id === 'passwordModal') {
+      closePasswordModal();
+    }
+  });
+  
+  // Verificar si debe mostrar UI de admin
+  if (isAdmin) {
+    showAdminUI();
+  }
 });
 
 // ===== HACER FUNCIONES GLOBALES =====
