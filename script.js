@@ -96,9 +96,7 @@ function displayApps(apps) {
     return;
   }
 
-  appsGrid.innerHTML = apps
-    .map(
-      (app) => `
+  appsGrid.innerHTML = apps.map(app => `
     <div class="app-card">
       <h3>${app.nombre}</h3>
       <p>Versión ${app.version}</p>
@@ -106,9 +104,7 @@ function displayApps(apps) {
         Descargar
       </button>
     </div>
-  `
-    )
-    .join("");
+  `).join("");
 }
 
 function updateStats() {
@@ -119,6 +115,10 @@ function updateStats() {
 async function uploadAPK(event) {
   event.preventDefault();
 
+  const submitBtn = document.querySelector("#uploadForm button[type='submit']");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Subiendo...";
+
   const appName = document.getElementById("appName").value;
   const appVersion = document.getElementById("appVersion").value;
   const appCategory = document.getElementById("appCategory").value;
@@ -127,6 +127,8 @@ async function uploadAPK(event) {
 
   if (!apkFile) {
     alert("Selecciona un archivo APK");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Subir APK";
     return;
   }
 
@@ -136,20 +138,20 @@ async function uploadAPK(event) {
 
   try {
     const response = await fetch(
-"https://api.cloudinary.com/v1_1/dpny3pbg8/auto/upload",
+      "https://api.cloudinary.com/v1_1/dpny3pbg8/auto/upload",
       {
         method: "POST",
         body: formData
       }
     );
 
-    const data = await response.json();
-console.log("Respuesta de Cloudinary:", data);
-
-    if (!data.secure_url) {
-      alert("Error al subir archivo");
-      return;
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Error Cloudinary:", errorData);
+      throw new Error("Error en Cloudinary");
     }
+
+    const data = await response.json();
 
     await addDoc(collection(db, "apks"), {
       nombre: appName,
@@ -164,9 +166,13 @@ console.log("Respuesta de Cloudinary:", data);
     alert("APK subida correctamente ✅");
     document.getElementById("uploadForm").reset();
     loadApps();
+
   } catch (error) {
     console.error("Error subiendo APK:", error);
-    alert("Error al subir");
+    alert("Error al subir archivo");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Subir APK";
   }
 }
 
@@ -190,23 +196,19 @@ window.downloadApp = downloadApp;
 document.addEventListener("DOMContentLoaded", () => {
   loadApps();
 
-  document
-    .getElementById("uploadForm")
+  document.getElementById("uploadForm")
     .addEventListener("submit", uploadAPK);
 
-  document
-    .getElementById("passwordForm")
+  document.getElementById("passwordForm")
     .addEventListener("submit", function (e) {
       e.preventDefault();
       const password = document.getElementById("adminPassword").value;
       checkPassword(password);
     });
 
-  document
-    .getElementById("btnLoginFromSection")
+  document.getElementById("btnLoginFromSection")
     .addEventListener("click", openPasswordModal);
 
-  document
-    .getElementById("closePasswordModal")
+  document.getElementById("closePasswordModal")
     .addEventListener("click", closePasswordModal);
 });
