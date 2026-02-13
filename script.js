@@ -35,10 +35,8 @@ const ADMIN_PASSWORD = "admin123";
 let allApps = [];
 let isAdmin = false;
 
-// ===== AUTH SIMPLE =====
-if (localStorage.getItem("adminLoggedIn") === "true") {
-  showAdminUI();
-}
+// ACTIVAR ADMIN DIRECTAMENTE (SOLO PARA PRUEBA)
+showAdminUI();
 
 function showAdminUI() {
   isAdmin = true;
