@@ -35,8 +35,10 @@ const ADMIN_PASSWORD = "admin123";
 let allApps = [];
 let isAdmin = false;
 
-// ACTIVAR ADMIN DIRECTAMENTE (SOLO PARA PRUEBA)
-showAdminUI();
+// ===== AUTH SIMPLE =====
+if (localStorage.getItem("adminLoggedIn") === "true") {
+  showAdminUI();
+}
 
 function showAdminUI() {
   isAdmin = true;
@@ -134,7 +136,7 @@ async function uploadAPK(event) {
 
   try {
     const response = await fetch(
-      "https://api.cloudinary.com/v1_1/dpny3pbg8/raw/upload",
+"https://api.cloudinary.com/v1_1/dpny3pbg8/auto/upload",
       {
         method: "POST",
         body: formData
