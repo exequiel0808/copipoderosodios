@@ -144,6 +144,7 @@ async function uploadAPK(event) {
     );
 
     const data = await response.json();
+console.log("Respuesta de Cloudinary:", data);
 
     if (!data.secure_url) {
       alert("Error al subir archivo");
