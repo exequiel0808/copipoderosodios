@@ -92,73 +92,85 @@
         </div>
     </section>
 
-    <!-- SECCIÓN SUBIR APK -->
-    <section class="upload-section" id="subir" style="display: none;">
-        <div class="container">
-            <h2 class="section-title">
-                <i class="fas fa-cloud-upload-alt"></i> Subir Nueva APK
-            </h2>
-            
-            <!-- Mensaje de acceso restringido -->
-            <div id="accessDenied" class="access-denied">
-                <i class="fas fa-lock"></i>
-                <h3>Área Protegida</h3>
-                <p>Necesitas la contraseña de administrador para subir APKs</p>
-                <button id="btnLoginFromSection" class="btn-login-section">
-                    <i class="fas fa-key"></i> Ingresar Contraseña
-                </button>
-            </div>
-            
-            <!-- Formulario de subida (solo visible para admin) -->
-            <div id="uploadFormContainer" class="upload-card" style="display: none;">
-                <form id="uploadForm">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label><i class="fas fa-tag"></i> Nombre de la App</label>
-                            <input type="text" id="appName" required placeholder="Ej: Netflix">
-                        </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-code-branch"></i> Versión</label>
-                            <input type="text" id="appVersion" required placeholder="Ej: 8.0.1">
-                        </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-list"></i> Categoría</label>
-                            <select id="appCategory" required>
-                                <option value="">Seleccionar categoría</option>
-                                <option value="streaming">Streaming</option>
-                                <option value="juegos">Juegos</option>
-                                <option value="utilidades">Utilidades</option>
-                                <option value="otros">Otros</option>
-                            </select>
-                        </div>
-                        <div class="form-group full-width">
-                            <label><i class="fas fa-info-circle"></i> Descripción</label>
-                            <textarea id="appDescription" rows="3" placeholder="Describe brevemente la aplicación..."></textarea>
-                        </div>
-                        <div class="form-group full-width">
-                            <label><i class="fas fa-file-archive"></i> Archivo APK</label>
-                            <div class="file-input-wrapper">
-                                <input type="file" id="apkFile" accept=".apk" required>
-                                <div class="file-input-display">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <span>Seleccionar archivo APK</span>
-                                </div>
-                            </div>
-                            <div id="uploadProgress" class="upload-progress" style="display: none;">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" id="progressFill"></div>
-                                </div>
-                                <span id="progressText">0%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-upload">
-                        <i class="fas fa-upload"></i> Subir APK
-                    </button>
-                </form>
-            </div>
+   <!-- SECCIÓN SUBIR APK -->
+<section class="upload-section" id="subir" style="display: none;">
+    <div class="container">
+        <h2 class="section-title">
+            <i class="fas fa-cloud-upload-alt"></i> Agregar Nueva APK
+        </h2>
+
+        <!-- Mensaje de acceso restringido -->
+        <div id="accessDenied" class="access-denied">
+            <i class="fas fa-lock"></i>
+            <h3>Área Protegida</h3>
+            <p>Necesitas la contraseña de administrador</p>
+            <button id="btnLoginFromSection" class="btn-login-section">
+                <i class="fas fa-key"></i> Ingresar Contraseña
+            </button>
         </div>
-    </section>
+
+        <!-- Formulario -->
+        <div id="uploadFormContainer" class="upload-card" style="display: none;">
+            <form id="uploadForm">
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" id="appName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Versión</label>
+                        <input type="text" id="appVersion" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="appCategory" required>
+                            <option value="">Seleccionar</option>
+                            <option value="streaming">Streaming</option>
+                            <option value="juegos">Juegos</option>
+                            <option value="utilidades">Utilidades</option>
+                            <option value="otros">Otros</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>URL de descarga (MediaFire)</label>
+                        <input type="text" id="appURL" required placeholder="https://mediafire.com/...">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Imagen 1 (URL)</label>
+                        <input type="text" id="image1">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Imagen 2 (URL)</label>
+                        <input type="text" id="image2">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Imagen 3 (URL)</label>
+                        <input type="text" id="image3">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Descripción</label>
+                        <textarea id="appDescription" rows="3"></textarea>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn-upload">
+                    <i class="fas fa-plus"></i> Agregar Aplicación
+                </button>
+
+            </form>
+        </div>
+    </div>
+</section>
+
 
     <!-- FOOTER -->
     <footer class="footer">
