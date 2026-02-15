@@ -111,13 +111,17 @@ function updateStats() {
   document.getElementById("totalApps").textContent = allApps.length;
 }
 
-// ===== SUBIR APK =====
-async function uploadAPK(event) {
+// ===== SUBIR APK CON BARRA REAL =====
+function uploadAPK(event) {
   event.preventDefault();
 
   const submitBtn = document.querySelector("#uploadForm button[type='submit']");
+  const progressContainer = document.getElementById("uploadProgress");
+  const progressFill = document.getElementById("progressFill");
+  const progressText = document.getElementById("progressText");
+
   submitBtn.disabled = true;
-  submitBtn.textContent = "Subiendo...";
+  submitBtn.innerHTML = "Subiendo...";
 
   const appName = document.getElementById("appName").value;
   const appVersion = document.getElementById("appVersion").value;
@@ -128,52 +132,65 @@ async function uploadAPK(event) {
   if (!apkFile) {
     alert("Selecciona un archivo APK");
     submitBtn.disabled = false;
-    submitBtn.textContent = "Subir APK";
+    submitBtn.innerHTML = "Subir APK";
     return;
   }
 
   const formData = new FormData();
   formData.append("file", apkFile);
   formData.append("upload_preset", "apk_unsigned");
+  formData.append("resource_type", "raw");
 
-  try {
-    const response = await fetch(
-      "https://api.cloudinary.com/v1_1/dpny3pbg8/auto/upload",
-      {
-        method: "POST",
-        body: formData
-      }
-    );
+  progressContainer.style.display = "block";
+  progressFill.style.width = "0%";
+  progressText.textContent = "0%";
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Error Cloudinary:", errorData);
-      throw new Error("Error en Cloudinary");
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "https://api.cloudinary.com/v1_1/dpny3pbg8/auto/upload", true);
+
+  // PROGRESO REAL
+  xhr.upload.onprogress = function (event) {
+    if (event.lengthComputable) {
+      const percent = Math.round((event.loaded / event.total) * 100);
+      progressFill.style.width = percent + "%";
+      progressText.textContent = percent + "%";
+    }
+  };
+
+  xhr.onload = async function () {
+    if (xhr.status === 200) {
+      const data = JSON.parse(xhr.responseText);
+
+      await addDoc(collection(db, "apks"), {
+        nombre: appName,
+        version: appVersion,
+        categoria: appCategory,
+        descripcion: appDescription,
+        url: data.secure_url,
+        descargas: 0,
+        fecha: serverTimestamp()
+      });
+
+      alert("APK subida correctamente ✅");
+      document.getElementById("uploadForm").reset();
+      progressContainer.style.display = "none";
+      loadApps();
+    } else {
+      console.error("Error Cloudinary:", xhr.responseText);
+      alert("Error al subir archivo");
     }
 
-    const data = await response.json();
-
-    await addDoc(collection(db, "apks"), {
-      nombre: appName,
-      version: appVersion,
-      categoria: appCategory,
-      descripcion: appDescription,
-      url: data.secure_url,
-      descargas: 0,
-      fecha: serverTimestamp()
-    });
-
-    alert("APK subida correctamente ✅");
-    document.getElementById("uploadForm").reset();
-    loadApps();
-
-  } catch (error) {
-    console.error("Error subiendo APK:", error);
-    alert("Error al subir archivo");
-  } finally {
     submitBtn.disabled = false;
-    submitBtn.textContent = "Subir APK";
-  }
+    submitBtn.innerHTML = "<i class='fas fa-upload'></i> Subir APK";
+  };
+
+  xhr.onerror = function () {
+    alert("Error de conexión");
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = "<i class='fas fa-upload'></i> Subir APK";
+  };
+
+  xhr.send(formData);
 }
 
 // ===== DESCARGAR =====
