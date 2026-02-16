@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>APK Store - Descarga Apps para Fire Stick</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -17,35 +17,83 @@
                 <i class="fas fa-android"></i>
                 <span>APK<strong>Store</strong></span>
             </div>
-            <div class="nav-links">
-                <a href="#inicio"><i class="fas fa-home"></i> Inicio</a>
-                <a href="#apps"><i class="fas fa-mobile-alt"></i> Aplicaciones</a>
-                <a href="#subir"><i class="fas fa-upload"></i> Subir APK</a>
+            
+            <!-- Menú hamburguesa para móvil -->
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#inicio" class="nav-link">
+                    <i class="fas fa-home"></i> 
+                    <span>Inicio</span>
+                </a>
+                <a href="#apps" class="nav-link">
+                    <i class="fas fa-mobile-alt"></i> 
+                    <span>Aplicaciones</span>
+                </a>
+                <!-- Este enlace SOLO se muestra si está logueado -->
+                <a href="#subir" class="nav-link admin-only" id="navSubirAPK" style="display: none;">
+                    <i class="fas fa-upload"></i> 
+                    <span>Subir APK</span>
+                </a>
+                <!-- Botón de admin si NO está logueado -->
+                <button class="btn-admin" id="btnAdminNav" style="display: flex;">
+                    <i class="fas fa-key"></i> 
+                    <span>Admin</span>
+                </button>
+                <!-- Botón de logout si SÍ está logueado -->
+                <button class="btn-logout" id="btnLogoutNav" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i> 
+                    <span>Cerrar Sesión</span>
+                </button>
             </div>
         </div>
     </nav>
 
     <!-- HERO SECTION -->
     <section class="hero" id="inicio">
+        <div class="hero-background">
+            <div class="circle-gradient circle-1"></div>
+            <div class="circle-gradient circle-2"></div>
+            <div class="circle-gradient circle-3"></div>
+        </div>
         <div class="hero-content">
-            <h1><i class="fas fa-rocket"></i> Bienvenido a APK Store</h1>
-            <p>Descarga las mejores aplicaciones para tu Fire Stick, Android TV y más</p>
+            <div class="hero-badge">
+                <i class="fas fa-star"></i>
+                <span>La mejor tienda de APKs</span>
+            </div>
+            <h1 class="hero-title">
+                <i class="fas fa-rocket"></i> 
+                Bienvenido a <span class="gradient-text">APK Store</span>
+            </h1>
+            <p class="hero-subtitle">Descarga las mejores aplicaciones para tu Fire Stick, Android TV y más dispositivos</p>
             <div class="hero-stats">
                 <div class="stat-item">
-                    <i class="fas fa-download"></i>
-                    <div>
-                        <h3 id="totalDownloads">0</h3>
-                        <p>Descargas</p>
+                    <div class="stat-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalDownloads" class="counter">0</h3>
+                        <p>Descargas Totales</p>
                     </div>
                 </div>
                 <div class="stat-item">
-                    <i class="fas fa-mobile-alt"></i>
-                    <div>
-                        <h3 id="totalApps">0</h3>
+                    <div class="stat-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalApps" class="counter">0</h3>
                         <p>Aplicaciones</p>
                     </div>
                 </div>
             </div>
+            <a href="#apps" class="btn-hero">
+                <span>Explorar Apps</span>
+                <i class="fas fa-arrow-down"></i>
+            </a>
         </div>
     </section>
 
@@ -54,23 +102,31 @@
         <div class="container">
             <div class="search-box">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Buscar aplicaciones...">
+                <input type="text" id="searchInput" placeholder="Buscar aplicaciones por nombre...">
+                <button class="search-clear" id="searchClear" style="display: none;">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="category-filters">
                 <button class="category-btn active" data-category="todas">
-                    <i class="fas fa-th"></i> Todas
+                    <i class="fas fa-th"></i> 
+                    <span>Todas</span>
                 </button>
                 <button class="category-btn" data-category="streaming">
-                    <i class="fas fa-tv"></i> Streaming
+                    <i class="fas fa-tv"></i> 
+                    <span>Streaming</span>
                 </button>
                 <button class="category-btn" data-category="juegos">
-                    <i class="fas fa-gamepad"></i> Juegos
+                    <i class="fas fa-gamepad"></i> 
+                    <span>Juegos</span>
                 </button>
                 <button class="category-btn" data-category="utilidades">
-                    <i class="fas fa-tools"></i> Utilidades
+                    <i class="fas fa-tools"></i> 
+                    <span>Utilidades</span>
                 </button>
                 <button class="category-btn" data-category="otros">
-                    <i class="fas fa-ellipsis-h"></i> Otros
+                    <i class="fas fa-ellipsis-h"></i> 
+                    <span>Otros</span>
                 </button>
             </div>
         </div>
@@ -80,97 +136,91 @@
     <section class="apps-section" id="apps">
         <div class="container">
             <h2 class="section-title">
-                <i class="fas fa-fire"></i> Aplicaciones Disponibles
+                <i class="fas fa-fire"></i> 
+                <span>Aplicaciones Disponibles</span>
             </h2>
             <div id="appsGrid" class="apps-grid">
                 <!-- Las apps se cargarán dinámicamente aquí -->
                 <div class="loading">
-                    <i class="fas fa-spinner fa-spin"></i>
+                    <div class="spinner"></div>
                     <p>Cargando aplicaciones...</p>
                 </div>
             </div>
         </div>
     </section>
 
-   <!-- SECCIÓN SUBIR APK -->
-<section class="upload-section" id="subir" style="display: none;">
-    <div class="container">
-        <h2 class="section-title">
-            <i class="fas fa-cloud-upload-alt"></i> Agregar Nueva APK
-        </h2>
+   <!-- SECCIÓN SUBIR APK (Solo visible para admins) -->
+   <section class="upload-section" id="subir" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-cloud-upload-alt"></i> 
+                <span>Agregar Nueva APK</span>
+            </h2>
 
-        <!-- Mensaje de acceso restringido -->
-        <div id="accessDenied" class="access-denied">
-            <i class="fas fa-lock"></i>
-            <h3>Área Protegida</h3>
-            <p>Necesitas la contraseña de administrador</p>
-            <button id="btnLoginFromSection" class="btn-login-section">
-                <i class="fas fa-key"></i> Ingresar Contraseña
-            </button>
+            <!-- Formulario de subida -->
+            <div id="uploadFormContainer" class="upload-card">
+                <form id="uploadForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label><i class="fas fa-tag"></i> Nombre de la App</label>
+                            <input type="text" id="appName" required placeholder="Ej: Netflix, Spotify...">
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-code-branch"></i> Versión</label>
+                            <input type="text" id="appVersion" required placeholder="Ej: 1.0.5">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label><i class="fas fa-folder"></i> Categoría</label>
+                            <select id="appCategory" required>
+                                <option value="">Seleccionar categoría</option>
+                                <option value="streaming">📺 Streaming</option>
+                                <option value="juegos">🎮 Juegos</option>
+                                <option value="utilidades">🔧 Utilidades</option>
+                                <option value="otros">📦 Otros</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label><i class="fas fa-link"></i> URL de descarga</label>
+                            <input type="url" id="appURL" required placeholder="https://mediafire.com/file/...">
+                            <small>Sube tu APK a MediaFire, Google Drive o Dropbox</small>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label><i class="fas fa-align-left"></i> Descripción</label>
+                            <textarea id="appDescription" rows="4" placeholder="Describe la aplicación, sus características principales..."></textarea>
+                        </div>
+
+                        <div class="form-divider full-width">
+                            <span>Imágenes (Opcional)</span>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label><i class="fas fa-image"></i> Imagen 1 (URL)</label>
+                            <input type="url" id="image1" placeholder="https://ejemplo.com/imagen1.jpg">
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-image"></i> Imagen 2 (URL)</label>
+                            <input type="url" id="image2" placeholder="https://ejemplo.com/imagen2.jpg">
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-image"></i> Imagen 3 (URL)</label>
+                            <input type="url" id="image3" placeholder="https://ejemplo.com/imagen3.jpg">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-upload">
+                        <i class="fas fa-plus-circle"></i> 
+                        <span>Agregar Aplicación</span>
+                    </button>
+                </form>
+            </div>
         </div>
-
-        <!-- Formulario -->
-        <div id="uploadFormContainer" class="upload-card" style="display: none;">
-            <form id="uploadForm">
-                <div class="form-grid">
-
-                    <div class="form-group">
-                        <label>Nombre</label>
-                        <input type="text" id="appName" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Versión</label>
-                        <input type="text" id="appVersion" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Categoría</label>
-                        <select id="appCategory" required>
-                            <option value="">Seleccionar</option>
-                            <option value="streaming">Streaming</option>
-                            <option value="juegos">Juegos</option>
-                            <option value="utilidades">Utilidades</option>
-                            <option value="otros">Otros</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group full-width">
-                        <label>URL de descarga (MediaFire)</label>
-                        <input type="text" id="appURL" required placeholder="https://mediafire.com/...">
-                    </div>
-
-                    <div class="form-group full-width">
-                        <label>Imagen 1 (URL)</label>
-                        <input type="text" id="image1">
-                    </div>
-
-                    <div class="form-group full-width">
-                        <label>Imagen 2 (URL)</label>
-                        <input type="text" id="image2">
-                    </div>
-
-                    <div class="form-group full-width">
-                        <label>Imagen 3 (URL)</label>
-                        <input type="text" id="image3">
-                    </div>
-
-                    <div class="form-group full-width">
-                        <label>Descripción</label>
-                        <textarea id="appDescription" rows="3"></textarea>
-                    </div>
-
-                </div>
-
-                <button type="submit" class="btn-upload">
-                    <i class="fas fa-plus"></i> Agregar Aplicación
-                </button>
-
-            </form>
-        </div>
-    </div>
-</section>
-
+    </section>
 
     <!-- FOOTER -->
     <footer class="footer">
@@ -180,47 +230,70 @@
                     <i class="fas fa-android"></i>
                     <span>APK<strong>Store</strong></span>
                 </div>
-                <p>Comparte y descarga aplicaciones de forma segura</p>
+                <p class="footer-description">Tu tienda confiable de aplicaciones APK para Fire Stick y Android TV</p>
+                
+                <div class="footer-links">
+                    <a href="#inicio"><i class="fas fa-home"></i> Inicio</a>
+                    <a href="#apps"><i class="fas fa-mobile-alt"></i> Apps</a>
+                    <a href="https://github.com" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                </div>
+
                 <div class="footer-warning">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <small>Descarga aplicaciones solo de fuentes confiables. Verifica siempre los permisos antes de instalar.</small>
+                    <div>
+                        <strong>Advertencia de Seguridad:</strong>
+                        <small>Descarga aplicaciones solo de fuentes confiables. Verifica siempre los permisos antes de instalar cualquier APK en tu dispositivo.</small>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>&copy; 2026 APK Store. Todos los derechos reservados.</p>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- MODAL DE DETALLES -->
-    <div id="appModal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <div id="modalBody">
-                <!-- Contenido dinámico -->
-            </div>
-        </div>
-    </div>
-
     <!-- MODAL DE CONTRASEÑA -->
     <div id="passwordModal" class="modal">
+        <div class="modal-overlay" id="modalOverlay"></div>
         <div class="modal-content login-modal">
-            <span class="modal-close" id="closePasswordModal">&times;</span>
+            <button class="modal-close" id="closePasswordModal" aria-label="Cerrar modal">
+                <i class="fas fa-times"></i>
+            </button>
+            
             <div class="login-container">
                 <div class="login-header">
-                    <i class="fas fa-lock"></i>
+                    <div class="login-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
                     <h2>Acceso Administrador</h2>
-                    <p>Ingresa la contraseña para subir APKs</p>
+                    <p>Ingresa la contraseña para gestionar las APKs</p>
                 </div>
+                
                 <form id="passwordForm">
                     <div class="form-group">
                         <label><i class="fas fa-key"></i> Contraseña</label>
-                        <input type="password" id="adminPassword" required placeholder="••••••••" autocomplete="off">
+                        <div class="password-input-wrapper">
+                            <input type="password" id="adminPassword" required placeholder="Ingresa la contraseña" autocomplete="off">
+                            <button type="button" class="toggle-password" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
-                    <button type="submit" class="btn-upload">
-                        <i class="fas fa-sign-in-alt"></i> Verificar Contraseña
+                    
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-sign-in-alt"></i> 
+                        <span>Verificar e Ingresar</span>
                     </button>
                 </form>
+                
                 <div id="passwordError" class="login-error" style="display: none;">
                     <i class="fas fa-exclamation-circle"></i>
-                    <span>Contraseña incorrecta</span>
+                    <span>Contraseña incorrecta. Inténtalo de nuevo.</span>
+                </div>
+
+                <div class="login-help">
+                    <small><i class="fas fa-info-circle"></i> Contraseña por defecto: <code>admin123</code></small>
                 </div>
             </div>
         </div>
