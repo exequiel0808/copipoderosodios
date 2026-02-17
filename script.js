@@ -191,6 +191,33 @@ function updateStats(totalApps, totalDownloads) {
   if (downloadsEl) animateCounter(downloadsEl, totalDownloads);
 }
 
+// ===== ACTUALIZAR CONTADOR DE RESULTADOS =====
+function updateSearchResults(count, searchTerm = "", category = "") {
+  const searchResultsEl = document.getElementById("searchResults");
+  if (!searchResultsEl) return;
+  
+  let text = "";
+  
+  if (searchTerm) {
+    text = `Encontradas ${count} aplicación${count !== 1 ? 'es' : ''} para "${searchTerm}"`;
+    searchResultsEl.classList.add("active");
+  } else if (category && category !== "todas") {
+    const categoryNames = {
+      streaming: "Streaming",
+      juegos: "Juegos",
+      utilidades: "Utilidades",
+      otros: "Otros"
+    };
+    text = `${count} aplicación${count !== 1 ? 'es' : ''} en ${categoryNames[category]}`;
+    searchResultsEl.classList.add("active");
+  } else {
+    text = `Mostrando todas las aplicaciones (${count})`;
+    searchResultsEl.classList.remove("active");
+  }
+  
+  searchResultsEl.textContent = text;
+}
+
 // ===== ANIMAR CONTADOR =====
 function animateCounter(element, target) {
   let current = 0;
@@ -207,10 +234,13 @@ function animateCounter(element, target) {
 }
 
 // ===== MOSTRAR APPS =====
-function displayApps(apps) {
+function displayApps(apps, searchTerm = "", category = "") {
   const grid = document.getElementById("appsGrid");
   
   if (!grid) return;
+
+  // Actualizar contador de resultados
+  updateSearchResults(apps.length, searchTerm, category);
 
   if (apps.length === 0) {
     grid.innerHTML = `
@@ -325,7 +355,7 @@ function setupSearch() {
       app.categoria.toLowerCase().includes(searchTerm)
     );
     
-    displayApps(filtered);
+    displayApps(filtered, searchTerm);
   });
   
   // Botón para limpiar búsqueda
@@ -357,7 +387,7 @@ function setupCategoryFilters() {
         displayApps(allApps);
       } else {
         const filtered = allApps.filter(app => app.categoria === category);
-        displayApps(filtered);
+        displayApps(filtered, "", category);
       }
       
       // Limpiar búsqueda

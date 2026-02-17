@@ -100,9 +100,13 @@
     <!-- BUSCADOR Y FILTROS -->
     <section class="search-section">
         <div class="container">
+            <div class="search-header">
+                <h2><i class="fas fa-search"></i> Buscar Aplicaciones</h2>
+                <p id="searchResults" class="search-results-text">Mostrando todas las aplicaciones</p>
+            </div>
             <div class="search-box">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Buscar aplicaciones por nombre...">
+                <input type="text" id="searchInput" placeholder="Buscar por nombre o descripción...">
                 <button class="search-clear" id="searchClear" style="display: none;">
                     <i class="fas fa-times"></i>
                 </button>
@@ -113,6 +117,24 @@
                     <span>Todas</span>
                 </button>
                 <button class="category-btn" data-category="streaming">
+                    <i class="fas fa-tv"></i> 
+                    <span>Streaming</span>
+                </button>
+                <button class="category-btn" data-category="juegos">
+                    <i class="fas fa-gamepad"></i> 
+                    <span>Juegos</span>
+                </button>
+                <button class="category-btn" data-category="utilidades">
+                    <i class="fas fa-tools"></i> 
+                    <span>Utilidades</span>
+                </button>
+                <button class="category-btn" data-category="otros">
+                    <i class="fas fa-ellipsis-h"></i> 
+                    <span>Otros</span>
+                </button>
+            </div>
+        </div>
+    </section>
                     <i class="fas fa-tv"></i> 
                     <span>Streaming</span>
                 </button>
@@ -290,10 +312,6 @@
                 <div id="passwordError" class="login-error" style="display: none;">
                     <i class="fas fa-exclamation-circle"></i>
                     <span>Contraseña incorrecta. Inténtalo de nuevo.</span>
-                </div>
-
-                <div class="login-help">
-                    <small><i class="fas fa-info-circle"></i> Contraseña por defecto: <code>admin123</code></small>
                 </div>
             </div>
         </div>
