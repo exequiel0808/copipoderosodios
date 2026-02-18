@@ -175,71 +175,177 @@
    <section class="upload-section" id="subir" style="display: none;">
         <div class="container">
             <h2 class="section-title">
-                <i class="fas fa-cloud-upload-alt"></i> 
-                <span>Agregar Nueva APK</span>
+                <i class="fas fa-tools"></i> 
+                <span>Gestión de APKs</span>
             </h2>
 
-            <!-- Formulario de subida -->
-            <div id="uploadFormContainer" class="upload-card">
-                <form id="uploadForm">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label><i class="fas fa-tag"></i> Nombre de la App</label>
-                            <input type="text" id="appName" required placeholder="Ej: Netflix, Spotify...">
+            <!-- Tabs para Subir/Actualizar -->
+            <div class="upload-tabs">
+                <button class="tab-btn active" data-tab="nueva" id="tabNueva">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Subir Nueva APK</span>
+                </button>
+                <button class="tab-btn" data-tab="actualizar" id="tabActualizar">
+                    <i class="fas fa-edit"></i>
+                    <span>Actualizar APK</span>
+                </button>
+            </div>
+
+            <!-- CONTENIDO TAB: SUBIR NUEVA -->
+            <div id="tabContentNueva" class="tab-content active">
+                <div class="upload-card">
+                    <form id="uploadForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label><i class="fas fa-tag"></i> Nombre de la App</label>
+                                <input type="text" id="appName" required placeholder="Ej: Netflix, Spotify...">
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="fas fa-code-branch"></i> Versión</label>
+                                <input type="text" id="appVersion" required placeholder="Ej: 1.0.5">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label><i class="fas fa-folder"></i> Categoría</label>
+                                <select id="appCategory" required>
+                                    <option value="">Seleccionar categoría</option>
+                                    <option value="streaming">📺 Streaming</option>
+                                    <option value="juegos">🎮 Juegos</option>
+                                    <option value="utilidades">🔧 Utilidades</option>
+                                    <option value="otros">📦 Otros</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label><i class="fas fa-link"></i> URL de descarga</label>
+                                <input type="url" id="appURL" required placeholder="https://mediafire.com/file/...">
+                                <small>Sube tu APK a MediaFire, Google Drive o Dropbox</small>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label><i class="fas fa-align-left"></i> Descripción</label>
+                                <textarea id="appDescription" rows="4" placeholder="Describe la aplicación, sus características principales..."></textarea>
+                            </div>
+
+                            <div class="form-divider full-width">
+                                <span>Imágenes (Opcional)</span>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label><i class="fas fa-image"></i> Imagen 1 (URL)</label>
+                                <input type="url" id="image1" placeholder="https://ejemplo.com/imagen1.jpg">
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="fas fa-image"></i> Imagen 2 (URL)</label>
+                                <input type="url" id="image2" placeholder="https://ejemplo.com/imagen2.jpg">
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="fas fa-image"></i> Imagen 3 (URL)</label>
+                                <input type="url" id="image3" placeholder="https://ejemplo.com/imagen3.jpg">
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label><i class="fas fa-code-branch"></i> Versión</label>
-                            <input type="text" id="appVersion" required placeholder="Ej: 1.0.5">
-                        </div>
+                        <button type="submit" class="btn-upload">
+                            <i class="fas fa-plus-circle"></i> 
+                            <span>Agregar Aplicación</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
 
-                        <div class="form-group full-width">
-                            <label><i class="fas fa-folder"></i> Categoría</label>
-                            <select id="appCategory" required>
-                                <option value="">Seleccionar categoría</option>
-                                <option value="streaming">📺 Streaming</option>
-                                <option value="juegos">🎮 Juegos</option>
-                                <option value="utilidades">🔧 Utilidades</option>
-                                <option value="otros">📦 Otros</option>
+            <!-- CONTENIDO TAB: ACTUALIZAR APK -->
+            <div id="tabContentActualizar" class="tab-content">
+                <div class="upload-card">
+                    <!-- Selector de APK -->
+                    <div class="apk-selector-section">
+                        <h3><i class="fas fa-list"></i> Selecciona la APK a Actualizar</h3>
+                        <div class="form-group">
+                            <label><i class="fas fa-mobile-alt"></i> Aplicación</label>
+                            <select id="apkSelector" required>
+                                <option value="">Selecciona una aplicación...</option>
                             </select>
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label><i class="fas fa-link"></i> URL de descarga</label>
-                            <input type="url" id="appURL" required placeholder="https://mediafire.com/file/...">
-                            <small>Sube tu APK a MediaFire, Google Drive o Dropbox</small>
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label><i class="fas fa-align-left"></i> Descripción</label>
-                            <textarea id="appDescription" rows="4" placeholder="Describe la aplicación, sus características principales..."></textarea>
-                        </div>
-
-                        <div class="form-divider full-width">
-                            <span>Imágenes (Opcional)</span>
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label><i class="fas fa-image"></i> Imagen 1 (URL)</label>
-                            <input type="url" id="image1" placeholder="https://ejemplo.com/imagen1.jpg">
-                        </div>
-
-                        <div class="form-group">
-                            <label><i class="fas fa-image"></i> Imagen 2 (URL)</label>
-                            <input type="url" id="image2" placeholder="https://ejemplo.com/imagen2.jpg">
-                        </div>
-
-                        <div class="form-group">
-                            <label><i class="fas fa-image"></i> Imagen 3 (URL)</label>
-                            <input type="url" id="image3" placeholder="https://ejemplo.com/imagen3.jpg">
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-upload">
-                        <i class="fas fa-plus-circle"></i> 
-                        <span>Agregar Aplicación</span>
-                    </button>
-                </form>
+                    <!-- Formulario de actualización (oculto hasta seleccionar) -->
+                    <div id="updateFormContainer" style="display: none;">
+                        <div class="update-info">
+                            <i class="fas fa-info-circle"></i>
+                            <p>Modifica los campos que desees actualizar</p>
+                        </div>
+
+                        <form id="updateForm">
+                            <input type="hidden" id="updateAppId">
+                            
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label><i class="fas fa-tag"></i> Nombre de la App</label>
+                                    <input type="text" id="updateAppName" required placeholder="Ej: Netflix, Spotify...">
+                                </div>
+
+                                <div class="form-group">
+                                    <label><i class="fas fa-code-branch"></i> Versión</label>
+                                    <input type="text" id="updateAppVersion" required placeholder="Ej: 1.0.5">
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label><i class="fas fa-folder"></i> Categoría</label>
+                                    <select id="updateAppCategory" required>
+                                        <option value="">Seleccionar categoría</option>
+                                        <option value="streaming">📺 Streaming</option>
+                                        <option value="juegos">🎮 Juegos</option>
+                                        <option value="utilidades">🔧 Utilidades</option>
+                                        <option value="otros">📦 Otros</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label><i class="fas fa-link"></i> URL de descarga</label>
+                                    <input type="url" id="updateAppURL" required placeholder="https://mediafire.com/file/...">
+                                    <small>Sube tu APK a MediaFire, Google Drive o Dropbox</small>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label><i class="fas fa-align-left"></i> Descripción</label>
+                                    <textarea id="updateAppDescription" rows="4" placeholder="Describe la aplicación, sus características principales..."></textarea>
+                                </div>
+
+                                <div class="form-divider full-width">
+                                    <span>Imágenes (Opcional)</span>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label><i class="fas fa-image"></i> Imagen 1 (URL)</label>
+                                    <input type="url" id="updateImage1" placeholder="https://ejemplo.com/imagen1.jpg">
+                                </div>
+
+                                <div class="form-group">
+                                    <label><i class="fas fa-image"></i> Imagen 2 (URL)</label>
+                                    <input type="url" id="updateImage2" placeholder="https://ejemplo.com/imagen2.jpg">
+                                </div>
+
+                                <div class="form-group">
+                                    <label><i class="fas fa-image"></i> Imagen 3 (URL)</label>
+                                    <input type="url" id="updateImage3" placeholder="https://ejemplo.com/imagen3.jpg">
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn-upload">
+                                    <i class="fas fa-save"></i> 
+                                    <span>Actualizar Aplicación</span>
+                                </button>
+                                <button type="button" class="btn-delete" id="btnDeleteApp">
+                                    <i class="fas fa-trash"></i> 
+                                    <span>Eliminar APK</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -310,6 +416,48 @@
                 </form>
                 
                 <div id="passwordError" class="login-error" style="display: none;">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Contraseña incorrecta. Inténtalo de nuevo.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CONFIRMACIÓN DE CONTRASEÑA (para actualizar/eliminar) -->
+    <div id="confirmPasswordModal" class="modal">
+        <div class="modal-overlay" id="confirmModalOverlay"></div>
+        <div class="modal-content login-modal">
+            <button class="modal-close" id="closeConfirmPasswordModal" aria-label="Cerrar modal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="login-container">
+                <div class="login-header">
+                    <div class="login-icon" id="confirmIcon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h2 id="confirmTitle">Confirmar Acción</h2>
+                    <p id="confirmMessage">Ingresa la contraseña de administrador para continuar</p>
+                </div>
+                
+                <form id="confirmPasswordForm">
+                    <div class="form-group">
+                        <label><i class="fas fa-key"></i> Contraseña</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="confirmAdminPassword" required placeholder="Ingresa la contraseña" autocomplete="off">
+                            <button type="button" class="toggle-password" id="toggleConfirmPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-check-circle"></i> 
+                        <span>Confirmar</span>
+                    </button>
+                </form>
+                
+                <div id="confirmPasswordError" class="login-error" style="display: none;">
                     <i class="fas fa-exclamation-circle"></i>
                     <span>Contraseña incorrecta. Inténtalo de nuevo.</span>
                 </div>

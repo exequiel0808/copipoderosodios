@@ -837,6 +837,146 @@ body {
     background: var(--dark-light);
 }
 
+/* Tabs para Subir/Actualizar */
+.upload-tabs {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 35px;
+    background: var(--card-bg);
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: var(--border-radius-xl);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    font-family: 'Poppins', sans-serif;
+}
+
+.tab-btn:hover {
+    border-color: var(--primary);
+    background: rgba(0, 217, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: var(--white);
+    border-color: transparent;
+    box-shadow: var(--glow-primary);
+}
+
+.tab-btn i {
+    font-size: 1.2rem;
+}
+
+/* Contenido de tabs */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Selector de APK */
+.apk-selector-section {
+    background: rgba(0, 217, 255, 0.05);
+    border: 2px solid rgba(0, 217, 255, 0.2);
+    border-radius: var(--border-radius-md);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.apk-selector-section h3 {
+    color: var(--white);
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.apk-selector-section h3 i {
+    color: var(--primary);
+}
+
+#apkSelector {
+    font-size: 1rem;
+    padding: 16px 18px;
+}
+
+#apkSelector option {
+    padding: 10px;
+}
+
+/* Update info banner */
+.update-info {
+    background: rgba(124, 77, 255, 0.1);
+    border: 1px solid rgba(124, 77, 255, 0.3);
+    border-radius: var(--border-radius-md);
+    padding: 15px 20px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--secondary);
+}
+
+.update-info i {
+    font-size: 1.3rem;
+}
+
+.update-info p {
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Form actions (botones de actualizar y eliminar) */
+.form-actions {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-delete {
+    padding: 16px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius-md);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), var(--glow-accent);
+}
+
 .upload-card {
     background: var(--card-bg);
     border: 2px solid var(--border);
@@ -1302,6 +1442,26 @@ body {
 
     .search-results-text {
         font-size: 0.9rem;
+    }
+
+    .upload-tabs {
+        gap: 10px;
+    }
+
+    .tab-btn span {
+        display: none;
+    }
+
+    .tab-btn {
+        padding: 12px 20px;
+    }
+
+    .form-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .apk-selector-section {
+        padding: 20px;
     }
 
     .modal-content {

@@ -7,6 +7,7 @@ import {
   query,
   orderBy,
   updateDoc,
+  deleteDoc,
   doc,
   increment,
   serverTimestamp
@@ -27,6 +28,7 @@ const db = getFirestore(app);
 const ADMIN_PASSWORD = "admin123";
 
 let allApps = [];
+let isAdminLoggedIn = false; // Variable temporal (no persiste al recargar)
 
 // ===== ELEMENTOS DEL DOM =====
 let uploadForm, passwordForm, adminPassword, togglePasswordBtn;
@@ -36,10 +38,24 @@ let btnAdminNav, btnLogoutNav, navSubirAPK;
 let searchInput, searchClear, categoryButtons;
 let mobileMenuToggle, navLinks;
 
+// Elementos para actualizar APKs
+let tabNueva, tabActualizar;
+let tabContentNueva, tabContentActualizar;
+let apkSelector, updateForm, updateFormContainer;
+let updateAppId, updateAppName, updateAppVersion, updateAppCategory;
+let updateAppDescription, updateAppURL, updateImage1, updateImage2, updateImage3;
+let btnDeleteApp;
+
+// Elementos para confirmación de contraseña
+let confirmPasswordModal, confirmPasswordForm, confirmAdminPassword;
+let toggleConfirmPassword, closeConfirmPasswordBtn, confirmModalOverlay;
+
+// Variable para guardar la acción pendiente
+let pendingAction = null;
+
 // ===== INICIALIZACIÓN =====
 document.addEventListener("DOMContentLoaded", () => {
   initializeElements();
-  checkAdminStatus();
   loadApps();
   setupEventListeners();
   setupNavbar();
@@ -76,18 +92,40 @@ function initializeElements() {
   // Menú móvil
   mobileMenuToggle = document.getElementById("mobileMenuToggle");
   navLinks = document.getElementById("navLinks");
-}
-
-// ===== VERIFICAR ESTADO DE ADMIN =====
-function checkAdminStatus() {
-  if (localStorage.getItem("adminLoggedIn") === "true") {
-    showAdminUI();
-  }
+  
+  // Tabs y actualización
+  tabNueva = document.getElementById("tabNueva");
+  tabActualizar = document.getElementById("tabActualizar");
+  tabContentNueva = document.getElementById("tabContentNueva");
+  tabContentActualizar = document.getElementById("tabContentActualizar");
+  apkSelector = document.getElementById("apkSelector");
+  updateForm = document.getElementById("updateForm");
+  updateFormContainer = document.getElementById("updateFormContainer");
+  btnDeleteApp = document.getElementById("btnDeleteApp");
+  
+  // Campos del formulario de actualización
+  updateAppId = document.getElementById("updateAppId");
+  updateAppName = document.getElementById("updateAppName");
+  updateAppVersion = document.getElementById("updateAppVersion");
+  updateAppCategory = document.getElementById("updateAppCategory");
+  updateAppDescription = document.getElementById("updateAppDescription");
+  updateAppURL = document.getElementById("updateAppURL");
+  updateImage1 = document.getElementById("updateImage1");
+  updateImage2 = document.getElementById("updateImage2");
+  updateImage3 = document.getElementById("updateImage3");
+  
+  // Modal de confirmación
+  confirmPasswordModal = document.getElementById("confirmPasswordModal");
+  confirmPasswordForm = document.getElementById("confirmPasswordForm");
+  confirmAdminPassword = document.getElementById("confirmAdminPassword");
+  toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+  closeConfirmPasswordBtn = document.getElementById("closeConfirmPasswordModal");
+  confirmModalOverlay = document.getElementById("confirmModalOverlay");
 }
 
 // ===== MOSTRAR UI DE ADMIN =====
 function showAdminUI() {
-  localStorage.setItem("adminLoggedIn", "true");
+  isAdminLoggedIn = true; // Variable temporal (se pierde al cerrar/recargar)
   
   // Mostrar sección de subir APK
   document.getElementById("subir").style.display = "block";
@@ -99,12 +137,12 @@ function showAdminUI() {
   if (btnAdminNav) btnAdminNav.style.display = "none";
   if (btnLogoutNav) btnLogoutNav.style.display = "flex";
   
-  console.log("✅ Admin UI activada");
+  console.log("✅ Admin UI activada (sesión temporal)");
 }
 
 // ===== OCULTAR UI DE ADMIN =====
 function hideAdminUI() {
-  localStorage.removeItem("adminLoggedIn");
+  isAdminLoggedIn = false;
   
   // Ocultar sección de subir APK
   document.getElementById("subir").style.display = "none";
@@ -159,6 +197,67 @@ function closePasswordModal() {
   }
 }
 
+// ===== MODAL DE CONFIRMACIÓN DE CONTRASEÑA =====
+function openConfirmPasswordModal(action, title, message, icon = "fa-lock") {
+  if (!confirmPasswordModal) return;
+  
+  // Guardar la acción pendiente
+  pendingAction = action;
+  
+  // Personalizar el modal
+  document.getElementById("confirmTitle").textContent = title;
+  document.getElementById("confirmMessage").textContent = message;
+  document.getElementById("confirmIcon").innerHTML = `<i class="fas ${icon}"></i>`;
+  
+  // Mostrar modal
+  confirmPasswordModal.classList.add("active");
+  confirmPasswordModal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+  
+  // Enfocar input de contraseña
+  if (confirmAdminPassword) {
+    setTimeout(() => confirmAdminPassword.focus(), 300);
+  }
+}
+
+function closeConfirmPasswordModal() {
+  if (!confirmPasswordModal) return;
+  
+  confirmPasswordModal.classList.remove("active");
+  confirmPasswordModal.style.display = "none";
+  document.body.style.overflow = "auto";
+  
+  // Limpiar
+  if (confirmPasswordForm) confirmPasswordForm.reset();
+  pendingAction = null;
+  
+  // Ocultar error si estaba visible
+  const errorEl = document.getElementById("confirmPasswordError");
+  if (errorEl) errorEl.style.display = "none";
+}
+
+function verifyPasswordAndExecute(password) {
+  if (password !== ADMIN_PASSWORD) {
+    // Contraseña incorrecta
+    const errorEl = document.getElementById("confirmPasswordError");
+    if (errorEl) {
+      errorEl.style.display = "flex";
+      setTimeout(() => {
+        errorEl.style.display = "none";
+      }, 3000);
+    }
+    return;
+  }
+  
+  // Contraseña correcta - ejecutar acción pendiente
+  closeConfirmPasswordModal();
+  
+  if (pendingAction) {
+    pendingAction();
+    pendingAction = null;
+  }
+}
+
 // ===== CARGAR APPS =====
 async function loadApps() {
   try {
@@ -176,10 +275,27 @@ async function loadApps() {
 
     displayApps(allApps);
     updateStats(allApps.length, totalDescargas);
+    loadApkSelector(); // Cargar selector de APKs para actualizar
   } catch (error) {
     console.error("Error al cargar apps:", error);
     showNotification("❌ Error al cargar las aplicaciones", "error");
   }
+}
+
+// ===== CARGAR SELECTOR DE APKs =====
+function loadApkSelector() {
+  if (!apkSelector) return;
+  
+  // Limpiar opciones anteriores
+  apkSelector.innerHTML = '<option value="">Selecciona una aplicación...</option>';
+  
+  // Agregar cada app como opción
+  allApps.forEach(app => {
+    const option = document.createElement("option");
+    option.value = app.id;
+    option.textContent = `${app.nombre} (v${app.version})`;
+    apkSelector.appendChild(option);
+  });
 }
 
 // ===== ACTUALIZAR ESTADÍSTICAS =====
@@ -311,6 +427,145 @@ async function uploadAPK(e) {
   } catch (error) {
     console.error("Error al agregar app:", error);
     showNotification("❌ Error al agregar la aplicación", "error");
+  }
+}
+
+// ===== CARGAR DATOS DE APK PARA ACTUALIZAR =====
+function loadApkData() {
+  const selectedId = apkSelector.value;
+  
+  if (!selectedId) {
+    updateFormContainer.style.display = "none";
+    return;
+  }
+  
+  // Buscar la app seleccionada
+  const app = allApps.find(a => a.id === selectedId);
+  
+  if (!app) {
+    showNotification("❌ No se encontró la aplicación", "error");
+    return;
+  }
+  
+  // Llenar el formulario con los datos
+  updateAppId.value = app.id;
+  updateAppName.value = app.nombre;
+  updateAppVersion.value = app.version;
+  updateAppCategory.value = app.categoria;
+  updateAppDescription.value = app.descripcion || "";
+  updateAppURL.value = app.url;
+  updateImage1.value = app.imagen1 || "";
+  updateImage2.value = app.imagen2 || "";
+  updateImage3.value = app.imagen3 || "";
+  
+  // Mostrar el formulario
+  updateFormContainer.style.display = "block";
+  
+  // Scroll al formulario
+  updateFormContainer.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+// ===== ACTUALIZAR APK (con confirmación de contraseña) =====
+async function updateAPK(e) {
+  e.preventDefault();
+  
+  const appId = updateAppId.value;
+  
+  if (!appId) {
+    showNotification("❌ Error: ID de aplicación no encontrado", "error");
+    return;
+  }
+  
+  // Buscar nombre de la app
+  const app = allApps.find(a => a.id === appId);
+  const appName = app ? app.nombre : "esta aplicación";
+  
+  // Pedir confirmación de contraseña
+  openConfirmPasswordModal(
+    () => executeUpdate(), // Acción a ejecutar
+    "Actualizar Aplicación", // Título
+    `Confirma tu contraseña para actualizar "${appName}"`, // Mensaje
+    "fa-edit" // Ícono
+  );
+}
+
+// Función que ejecuta la actualización (llamada después de verificar contraseña)
+async function executeUpdate() {
+  const appId = updateAppId.value;
+  
+  const data = {
+    nombre: updateAppName.value.trim(),
+    version: updateAppVersion.value.trim(),
+    categoria: updateAppCategory.value,
+    descripcion: updateAppDescription.value.trim(),
+    url: updateAppURL.value.trim(),
+    imagen1: updateImage1.value.trim() || "",
+    imagen2: updateImage2.value.trim() || "",
+    imagen3: updateImage3.value.trim() || ""
+  };
+  
+  try {
+    const ref = doc(db, "apks", appId);
+    await updateDoc(ref, data);
+    
+    showNotification("✅ Aplicación actualizada correctamente", "success");
+    updateForm.reset();
+    updateFormContainer.style.display = "none";
+    apkSelector.value = "";
+    loadApps();
+    
+    // Scroll a la sección de apps
+    document.getElementById("apps").scrollIntoView({ behavior: "smooth" });
+  } catch (error) {
+    console.error("Error al actualizar app:", error);
+    showNotification("❌ Error al actualizar la aplicación", "error");
+  }
+}
+
+// ===== ELIMINAR APK (con confirmación de contraseña) =====
+async function deleteAPK() {
+  const appId = updateAppId.value;
+  
+  if (!appId) {
+    showNotification("❌ Error: ID de aplicación no encontrado", "error");
+    return;
+  }
+  
+  // Buscar el nombre de la app
+  const app = allApps.find(a => a.id === appId);
+  const appName = app ? app.nombre : "esta aplicación";
+  
+  // Pedir confirmación de contraseña
+  openConfirmPasswordModal(
+    () => executeDelete(appId, appName), // Acción a ejecutar
+    "Eliminar Aplicación", // Título
+    `Confirma tu contraseña para eliminar "${appName}"`, // Mensaje
+    "fa-trash" // Ícono
+  );
+}
+
+// Función que ejecuta la eliminación (llamada después de verificar contraseña)
+async function executeDelete(appId, appName) {
+  // Pedir confirmación final
+  if (!confirm(`¿Estás SEGURO de eliminar "${appName}"? Esta acción NO se puede deshacer.`)) {
+    return;
+  }
+  
+  try {
+    const ref = doc(db, "apks", appId);
+    await deleteDoc(ref);
+    
+    showNotification("✅ Aplicación eliminada correctamente", "success");
+    updateForm.reset();
+    updateFormContainer.style.display = "none";
+    apkSelector.value = "";
+    loadApps();
+    
+    // Scroll a la sección de apps
+    document.getElementById("apps").scrollIntoView({ behavior: "smooth" });
+  } catch (error) {
+    console.error("Error al eliminar app:", error);
+    showNotification("❌ Error al eliminar la aplicación", "error");
   }
 }
 
@@ -498,8 +753,74 @@ function setupEventListeners() {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       closePasswordModal();
+      closeConfirmPasswordModal();
     }
   });
+  
+  // === MODAL DE CONFIRMACIÓN DE CONTRASEÑA ===
+  
+  // Formulario de confirmación
+  if (confirmPasswordForm) {
+    confirmPasswordForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      verifyPasswordAndExecute(confirmAdminPassword.value);
+    });
+  }
+  
+  // Cerrar modal de confirmación
+  if (closeConfirmPasswordBtn) {
+    closeConfirmPasswordBtn.addEventListener("click", closeConfirmPasswordModal);
+  }
+  
+  // Cerrar al hacer click en overlay
+  if (confirmModalOverlay) {
+    confirmModalOverlay.addEventListener("click", closeConfirmPasswordModal);
+  }
+  
+  // Toggle mostrar/ocultar contraseña del modal de confirmación
+  if (toggleConfirmPassword && confirmAdminPassword) {
+    toggleConfirmPassword.addEventListener("click", () => {
+      const type = confirmAdminPassword.type === "password" ? "text" : "password";
+      confirmAdminPassword.type = type;
+      
+      const icon = toggleConfirmPassword.querySelector("i");
+      if (icon) {
+        icon.className = type === "password" ? "fas fa-eye" : "fas fa-eye-slash";
+      }
+    });
+  }
+  
+  // Tabs de subir/actualizar
+  if (tabNueva && tabActualizar && tabContentNueva && tabContentActualizar) {
+    tabNueva.addEventListener("click", () => {
+      tabNueva.classList.add("active");
+      tabActualizar.classList.remove("active");
+      tabContentNueva.classList.add("active");
+      tabContentActualizar.classList.remove("active");
+    });
+    
+    tabActualizar.addEventListener("click", () => {
+      tabActualizar.classList.add("active");
+      tabNueva.classList.remove("active");
+      tabContentActualizar.classList.add("active");
+      tabContentNueva.classList.remove("active");
+    });
+  }
+  
+  // Selector de APK para actualizar
+  if (apkSelector) {
+    apkSelector.addEventListener("change", loadApkData);
+  }
+  
+  // Formulario de actualización
+  if (updateForm) {
+    updateForm.addEventListener("submit", updateAPK);
+  }
+  
+  // Botón de eliminar
+  if (btnDeleteApp) {
+    btnDeleteApp.addEventListener("click", deleteAPK);
+  }
   
   // Setup búsqueda y filtros
   setupSearch();
