@@ -876,3 +876,27 @@ body.modo-oscuro .oracion-input-group textarea::placeholder {
 .hero-btns {
     margin-bottom: 80px;
 }
+/* ==========================================================================
+   15. ESTILOS PARA TARJETAS DE VIDEO
+   ========================================================================== */
+.video-card {
+    background: rgba(0, 45, 91, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    transition: var(--transicion);
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(197, 160, 89, 0.2);
+}
+
+body.modo-oscuro .video-card {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.video-card .video-container {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}

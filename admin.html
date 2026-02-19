@@ -10,16 +10,21 @@
         .admin-body { background: #f0f2f5; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
         .admin-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
         .admin-card h2 { color: #0b2a57; margin-bottom: 20px; text-align: center; font-family: 'Playfair Display', serif; }
+        .admin-card h3 { color: #c5a059; margin: 30px 0 15px; text-align: center; font-family: 'Playfair Display', serif; }
         form { display: flex; flex-direction: column; gap: 15px; }
         input, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Poppins', sans-serif; }
         .btn-admin { background: #0b2a57; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         .btn-admin:hover { background: #1a3a6d; }
+        .divider { margin: 40px 0 20px; border-top: 2px solid #eee; }
     </style>
 </head>
 <body class="admin-body">
 
     <div id="adminContent" style="display:none;" class="admin-card">
-        <h2>🔑 Panel de Versículos</h2>
+        <h2>🔑 Panel de Administración</h2>
+        
+        <!-- FORMULARIO PARA VERSÍCULOS -->
+        <h3>📖 Agregar Versículos por Categoría</h3>
         <form id="formVersiculo">
             <input type="text" id="catId" placeholder="ID único (ej: sanidad)" required>
             <input type="text" id="catNombre" placeholder="Nombre Botón (ej: 🏥 Sanidad)" required>
@@ -27,7 +32,19 @@
             <input type="text" id="catCita" placeholder="Cita (ej: Salmos 103:3)" required>
             <button type="submit" id="btnGuardar" class="btn-admin">Guardar Categoría</button>
         </form>
-        <p style="text-align: center; margin-top: 20px;">
+
+        <div class="divider"></div>
+
+        <!-- FORMULARIO PARA PRÉDICAS -->
+        <h3>🎬 Agregar Prédicas en Video</h3>
+        <form id="formPredica">
+            <input type="text" id="predicaNombre" placeholder="Título de la prédica" required>
+            <input type="text" id="predicaPredicador" placeholder="Nombre del predicador (opcional)">
+            <input type="url" id="predicaUrl" placeholder="URL de YouTube (ej: https://youtu.be/...)" required>
+            <button type="submit" id="btnGuardarPredica" class="btn-admin">Guardar Prédica</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 30px;">
             <a href="index.html" style="color: #666; text-decoration: none; font-size: 0.9rem;">← Volver al inicio</a>
         </p>
     </div>

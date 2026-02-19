@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDg6RXRQLroOmsmIlziXlv1Rqnp3qaeEoM",
@@ -12,9 +12,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 // --- SEGURIDAD AL CARGAR LA PÁGINA ---
 function verificarAcceso() {
-    const claveCorrecta = "AdminDios2024"; // Asegúrate de que esta sea la que usas
+    const claveCorrecta = "AdminDios2024";
     const pass = prompt("Clave de acceso:");
 
     if (pass === claveCorrecta) {
@@ -25,14 +26,13 @@ function verificarAcceso() {
     }
 }
 
-// Ejecutamos la verificación solo una vez
 verificarAcceso();
 
-// --- GUARDAR CATEGORÍA SIN RECARGAR ---
-const formVer = document.getElementById("formVersiculo");
-if (formVer) {
-    formVer.addEventListener("submit", async (e) => {
-        e.preventDefault(); // ESTO evita que la página se recargue y pida clave de nuevo
+// --- GUARDAR CATEGORÍA (VERSÍCULOS) ---
+const formVersiculo = document.getElementById("formVersiculo");
+if (formVersiculo) {
+    formVersiculo.addEventListener("submit", async (e) => {
+        e.preventDefault();
         
         const btn = e.target.querySelector("button");
         btn.innerText = "Guardando...";
@@ -45,13 +45,45 @@ if (formVer) {
                 cita: document.getElementById("catCita").value,
                 id: document.getElementById("catId").value.toLowerCase()
             });
-            alert("✅ ¡Categoría guardada exitosamente en Firebase!");
-            formVer.reset();
+            alert("✅ ¡Categoría guardada exitosamente!");
+            formVersiculo.reset();
         } catch (error) {
-            console.error("Error completo:", error);
-            alert("❌ Error al guardar. Revisa la consola (F12) o las reglas de Firebase.");
+            console.error("Error:", error);
+            alert("❌ Error al guardar. Revisa la consola.");
         } finally {
             btn.innerText = "Guardar Categoría";
+            btn.disabled = false;
+        }
+    });
+}
+
+// --- GUARDAR PRÉDICA (VIDEOS) ---
+const formPredica = document.getElementById("formPredica");
+if (formPredica) {
+    formPredica.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        const btn = e.target.querySelector("button");
+        const textoOriginal = btn.innerText;
+        btn.innerText = "Guardando...";
+        btn.disabled = true;
+        
+        try {
+            await addDoc(collection(db, "predicas"), {
+                nombre: document.getElementById("predicaNombre").value.trim(),
+                predicador: document.getElementById("predicaPredicador").value.trim() || "Sin especificar",
+                url: document.getElementById("predicaUrl").value.trim(),
+                fecha: serverTimestamp()
+            });
+            
+            alert("✅ ¡Prédica guardada exitosamente!");
+            formPredica.reset();
+            
+        } catch (error) {
+            console.error("Error:", error);
+            alert("❌ Error al guardar. Revisa la consola.");
+        } finally {
+            btn.innerText = textoOriginal;
             btn.disabled = false;
         }
     });
