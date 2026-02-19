@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Poderoso es Dios</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-body { 
+            background: #f0f2f5; 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 20px; 
+        }
+        .admin-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        .admin-card { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            flex: 1;
+            min-width: 300px;
+        }
+        .admin-card h2 { 
+            color: #0b2a57; 
+            margin-bottom: 20px; 
+            text-align: center; 
+            font-family: 'Playfair Display', serif; 
+        }
+        form { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+        }
+        input, textarea { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            font-family: 'Poppins', sans-serif; 
+        }
+        .btn-admin { 
+            background: #0b2a57; 
+            color: white; 
+            border: none; 
+            padding: 15px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            transition: 0.3s; 
+        }
+        .btn-admin:hover { 
+            background: #1a3a6d; 
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .helper-text {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: -10px;
+        }
+        label {
+            font-weight: 600;
+            color: #0b2a57;
+            margin-bottom: -10px;
+        }
+    </style>
+</head>
+<body class="admin-body">
+
+    <div id="adminContent" style="display:none;">
+        <div class="admin-container">
+            
+            <!-- Card 1: Versículos -->
+            <div class="admin-card">
+                <h2>🔑 Panel de Versículos</h2>
+                <form id="formVersiculo">
+                    <label>ID único</label>
+                    <input type="text" id="catId" placeholder="ej: sanidad" required>
+                    
+                    <label>Nombre del Botón</label>
+                    <input type="text" id="catNombre" placeholder="ej: 🏥 Sanidad" required>
+                    
+                    <label>Texto del Versículo</label>
+                    <textarea id="catTexto" rows="4" placeholder="Escribe el versículo bíblico aquí..." required></textarea>
+                    
+                    <label>Cita Bíblica</label>
+                    <input type="text" id="catCita" placeholder="ej: Salmos 103:3" required>
+                    
+                    <button type="submit" id="btnGuardar" class="btn-admin">Guardar Categoría</button>
+                </form>
+            </div>
+
+            <!-- Card 2: Videos de Prédicas -->
+            <div class="admin-card">
+                <h2>📹 Agregar Video de Prédica</h2>
+                <form id="formVideo">
+                    <label>Título de la Prédica</label>
+                    <input type="text" id="videoTitulo" placeholder="ej: El Poder de la Fe" required>
+                    
+                    <label>Link del Video (YouTube)</label>
+                    <input type="url" id="videoLink" placeholder="https://www.youtube.com/watch?v=..." required>
+                    <p class="helper-text">Pega el link completo de YouTube</p>
+                    
+                    <button type="submit" class="btn-admin btn-success">Guardar Video</button>
+                </form>
+            </div>
+
+        </div>
+
+        <p style="text-align: center; margin-top: 30px;">
+            <a href="index.html" style="color: #666; text-decoration: none; font-size: 0.9rem;">← Volver al inicio</a>
+        </p>
+    </div>
+
+    <script type="module" src="admin.js"></script>
+</body>
+</html>
