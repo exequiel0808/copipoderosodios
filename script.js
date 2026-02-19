@@ -32,7 +32,7 @@ let isAdminLoggedIn = false; // Variable temporal (no persiste al recargar)
 
 // ===== ELEMENTOS DEL DOM =====
 let uploadForm, passwordForm, adminPassword, togglePasswordBtn;
-let appName, appVersion, appCategory, appDescription, appURL;
+let appName, appVersion, appCategory, appDescription, appURL, appCodigoDownloader;
 let image1, image2, image3;
 let btnAdminNav, btnLogoutNav, navSubirAPK;
 let searchInput, searchClear, categoryButtons;
@@ -43,7 +43,7 @@ let tabNueva, tabActualizar;
 let tabContentNueva, tabContentActualizar;
 let apkSelector, updateForm, updateFormContainer;
 let updateAppId, updateAppName, updateAppVersion, updateAppCategory;
-let updateAppDescription, updateAppURL, updateImage1, updateImage2, updateImage3;
+let updateAppDescription, updateAppURL, updateCodigoDownloader, updateImage1, updateImage2, updateImage3;
 let btnDeleteApp;
 
 // Elementos para confirmación de contraseña
@@ -75,6 +75,7 @@ function initializeElements() {
   appCategory = document.getElementById("appCategory");
   appDescription = document.getElementById("appDescription");
   appURL = document.getElementById("appURL");
+  appCodigoDownloader = document.getElementById("appCodigoDownloader");
   image1 = document.getElementById("image1");
   image2 = document.getElementById("image2");
   image3 = document.getElementById("image3");
@@ -110,6 +111,7 @@ function initializeElements() {
   updateAppCategory = document.getElementById("updateAppCategory");
   updateAppDescription = document.getElementById("updateAppDescription");
   updateAppURL = document.getElementById("updateAppURL");
+  updateCodigoDownloader = document.getElementById("updateCodigoDownloader");
   updateImage1 = document.getElementById("updateImage1");
   updateImage2 = document.getElementById("updateImage2");
   updateImage3 = document.getElementById("updateImage3");
@@ -377,6 +379,7 @@ function displayApps(apps, searchTerm = "", category = "") {
     };
     
     const icon = categoryIcons[app.categoria] || 'fa-mobile-alt';
+    const codigoDownloader = app.codigo_downloader || "N/A";
     
     return `
       <div class="app-card" data-category="${app.categoria}">
@@ -390,16 +393,22 @@ function displayApps(apps, searchTerm = "", category = "") {
           <span><i class="fas fa-download"></i> ${app.descargas || 0} descargas</span>
           <span class="app-category">${app.categoria}</span>
         </div>
-        <div class="app-buttons">
-          <button class="btn-downloader-code" onclick="showDownloaderCode('${app.id}', '${app.nombre}', '${app.url}')">
-            <i class="fas fa-code"></i>
-            <span>Ver Código</span>
-          </button>
-          <button class="btn-download" onclick="downloadApp('${app.id}', '${app.url}')">
-            <i class="fas fa-download"></i>
-            <span>Descargar</span>
-          </button>
+        <div class="downloader-code-section">
+          <div class="code-label">
+            <i class="fas fa-tv"></i>
+            <span>Código Downloader</span>
+          </div>
+          <div class="code-box">
+            <span class="code-value" id="code-${app.id}">${codigoDownloader}</span>
+            <button class="btn-copy" onclick="copyCode('${app.id}', '${codigoDownloader}')" title="Copiar código">
+              <i class="fas fa-copy"></i>
+            </button>
+          </div>
         </div>
+        <button class="btn-download" onclick="downloadApp('${app.id}', '${app.url}')">
+          <i class="fas fa-download"></i>
+          <span>Descargar APK</span>
+        </button>
       </div>
     `;
   }).join("");
@@ -415,6 +424,7 @@ async function uploadAPK(e) {
     categoria: appCategory.value,
     descripcion: appDescription.value.trim(),
     url: appURL.value.trim(),
+    codigo_downloader: appCodigoDownloader.value.trim(),
     imagen1: image1.value.trim() || "",
     imagen2: image2.value.trim() || "",
     imagen3: image3.value.trim() || "",
@@ -460,6 +470,7 @@ function loadApkData() {
   updateAppCategory.value = app.categoria;
   updateAppDescription.value = app.descripcion || "";
   updateAppURL.value = app.url;
+  updateCodigoDownloader.value = app.codigo_downloader || "";
   updateImage1.value = app.imagen1 || "";
   updateImage2.value = app.imagen2 || "";
   updateImage3.value = app.imagen3 || "";
@@ -505,6 +516,7 @@ async function executeUpdate() {
     categoria: updateAppCategory.value,
     descripcion: updateAppDescription.value.trim(),
     url: updateAppURL.value.trim(),
+    codigo_downloader: updateCodigoDownloader.value.trim(),
     imagen1: updateImage1.value.trim() || "",
     imagen2: updateImage2.value.trim() || "",
     imagen3: updateImage3.value.trim() || ""
@@ -593,73 +605,35 @@ async function downloadApp(id, url) {
 // Hacer downloadApp global
 window.downloadApp = downloadApp;
 
-// ===== MODAL DE CÓDIGO DOWNLOADER =====
-function showDownloaderCode(id, nombre, url) {
-  const modal = document.getElementById("downloaderModal");
-  const appNameEl = document.getElementById("downloaderAppName");
-  const codeDisplayEl = document.getElementById("downloaderCodeDisplay");
-  
-  if (!modal || !appNameEl || !codeDisplayEl) return;
-  
-  // Establecer nombre de la app
-  appNameEl.textContent = nombre;
-  
-  // Establecer código (URL)
-  codeDisplayEl.textContent = url;
-  
-  // Mostrar modal
-  modal.classList.add("active");
-  modal.style.display = "flex";
-  document.body.style.overflow = "hidden";
-}
-
-function closeDownloaderModal() {
-  const modal = document.getElementById("downloaderModal");
-  if (!modal) return;
-  
-  modal.classList.remove("active");
-  modal.style.display = "none";
-  document.body.style.overflow = "auto";
-  
-  // Resetear botón de copiar
-  const btnCopy = document.getElementById("btnCopyCode");
-  if (btnCopy) {
-    btnCopy.classList.remove("copied");
-    btnCopy.innerHTML = '<i class="fas fa-copy"></i><span>Copiar Código</span>';
-  }
-}
-
-async function copyDownloaderCode() {
-  const codeDisplayEl = document.getElementById("downloaderCodeDisplay");
-  const btnCopy = document.getElementById("btnCopyCode");
-  
-  if (!codeDisplayEl || !btnCopy) return;
-  
-  const code = codeDisplayEl.textContent;
-  
+// ===== COPIAR CÓDIGO DOWNLOADER =====
+async function copyCode(id, codigo) {
   try {
     // Copiar al portapapeles
-    await navigator.clipboard.writeText(code);
+    await navigator.clipboard.writeText(codigo);
     
-    // Cambiar apariencia del botón
-    btnCopy.classList.add("copied");
-    btnCopy.innerHTML = '<i class="fas fa-check"></i><span>¡Copiado!</span>';
+    // Cambiar ícono del botón temporalmente
+    const btn = event.currentTarget;
+    const icon = btn.querySelector("i");
+    const originalClass = icon.className;
     
-    showNotification("✅ Código copiado al portapapeles", "success");
+    icon.className = "fas fa-check";
+    btn.style.background = "#00E676";
     
-    // Restaurar botón después de 3 segundos
+    showNotification(`✅ Código ${codigo} copiado`, "success");
+    
+    // Restaurar después de 2 segundos
     setTimeout(() => {
-      btnCopy.classList.remove("copied");
-      btnCopy.innerHTML = '<i class="fas fa-copy"></i><span>Copiar Código</span>';
-    }, 3000);
+      icon.className = originalClass;
+      btn.style.background = "";
+    }, 2000);
   } catch (error) {
     console.error("Error al copiar:", error);
     showNotification("❌ Error al copiar código", "error");
   }
 }
 
-// Hacer funciones globales
-window.showDownloaderCode = showDownloaderCode;
+// Hacer copyCode global
+window.copyCode = copyCode;
 
 // ===== BÚSQUEDA =====
 function setupSearch() {
@@ -823,6 +797,14 @@ function setupEventListeners() {
     });
   }
   
+  // Cerrar modal con tecla Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closePasswordModal();
+      closeConfirmPasswordModal();
+    }
+  });
+  
   // === MODAL DE CONFIRMACIÓN DE CONTRASEÑA ===
   
   // Formulario de confirmación
@@ -887,35 +869,6 @@ function setupEventListeners() {
   if (btnDeleteApp) {
     btnDeleteApp.addEventListener("click", deleteAPK);
   }
-  
-  // === MODAL DE DOWNLOADER ===
-  
-  // Botón de copiar código
-  const btnCopyCode = document.getElementById("btnCopyCode");
-  if (btnCopyCode) {
-    btnCopyCode.addEventListener("click", copyDownloaderCode);
-  }
-  
-  // Cerrar modal de Downloader
-  const closeDownloaderBtn = document.getElementById("closeDownloaderModal");
-  if (closeDownloaderBtn) {
-    closeDownloaderBtn.addEventListener("click", closeDownloaderModal);
-  }
-  
-  // Cerrar al hacer click en overlay
-  const downloaderOverlay = document.getElementById("downloaderModalOverlay");
-  if (downloaderOverlay) {
-    downloaderOverlay.addEventListener("click", closeDownloaderModal);
-  }
-  
-  // Cerrar con Escape (actualizar el listener existente)
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      closePasswordModal();
-      closeConfirmPasswordModal();
-      closeDownloaderModal();
-    }
-  });
   
   // Setup búsqueda y filtros
   setupSearch();
