@@ -1,5 +1,14 @@
+// ======================================================
+// FIREBASE CONFIG
+// ======================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDg6RXRQLroOmsmIlziXlv1Rqnp3qaeEoM",
@@ -13,146 +22,158 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// --- CARGAR VIDEOS DESDE FIREBASE ---
-async function cargarVideos() {
-    const contenedor = document.querySelector('.predicas-grid');
-    if (!contenedor) return;
+// ======================================================
+// VERSÍCULO DEL DÍA (JSON DESDE GITHUB)
+// ======================================================
+async function cargarVersiculoDiario() {
+  const URL =
+    "https://raw.githubusercontent.com/exequiel0808/poderoso-Dios/main/biblia-completa-rv1960.json";
+
+  const texto = document.getElementById("texto-dia");
+  const cita = document.getElementById("cita-dia");
+
+  if (!texto || !cita) return;
+
+  try {
+    const res = await fetch(URL + "?v=" + Date.now());
+    const biblia = await res.json();
+
+    const hoy = new Date();
+    const inicio = new Date(hoy.getFullYear(), 0, 0);
+    const dia = Math.floor((hoy - inicio) / (1000 * 60 * 60 * 24));
+
+    const versiculo = biblia[dia % biblia.length];
+
+    texto.textContent = `"${versiculo.texto}"`;
+    cita.textContent = versiculo.cita;
+  } catch (e) {
+    texto.textContent =
+      "Lámpara es a mis pies tu palabra, y lumbrera a mi camino.";
+    cita.textContent = "Salmos 119:105";
+  }
+}
+
+// ======================================================
+// MODO OSCURO
+// ======================================================
+function inicializarModoOscuro() {
+  const btn = document.getElementById("btnModoOscuro");
+  if (!btn) return;
+
+  const estado = localStorage.getItem("modoOscuro");
+  if (estado === "on") document.body.classList.add("modo-oscuro");
+
+  btn.addEventListener("click", () => {
+    document.body.classList.toggle("modo-oscuro");
+    localStorage.setItem(
+      "modoOscuro",
+      document.body.classList.contains("modo-oscuro") ? "on" : "off"
+    );
+  });
+}
+
+// ======================================================
+// MÚSICA DE FONDO
+// ======================================================
+function inicializarMusica() {
+  const audio = document.getElementById("audioVersiculos");
+  const btn = document.getElementById("btnMusicaVersiculos");
+
+  if (!audio || !btn) return;
+
+  btn.addEventListener("click", () => {
+    if (audio.paused) {
+      audio.play();
+      btn.classList.add("activo");
+    } else {
+      audio.pause();
+      btn.classList.remove("activo");
+    }
+  });
+}
+
+// ======================================================
+// FAQ – FUNDAMENTOS DE FE (EL +)
+// ======================================================
+function inicializarFAQ() {
+  const items = document.querySelectorAll(".faq-item");
+
+  items.forEach(item => {
+    const question = item.querySelector(".faq-question");
+    const answer = item.querySelector(".faq-answer");
+    const icon = question.querySelector("i");
+
+    answer.style.display = "none";
+
+    question.addEventListener("click", () => {
+      const abierto = answer.style.display === "block";
+
+      items.forEach(i => {
+        i.querySelector(".faq-answer").style.display = "none";
+        i.querySelector("i").classList.replace("fa-minus", "fa-plus");
+      });
+
+      if (!abierto) {
+        answer.style.display = "block";
+        icon.classList.replace("fa-plus", "fa-minus");
+      }
+    });
+  });
+}
+
+// ======================================================
+// FORMULARIO DE ORACIÓN (FIREBASE)
+// ======================================================
+const formOracion = document.getElementById("formOracion");
+if (formOracion) {
+  formOracion.addEventListener("submit", async e => {
+    e.preventDefault();
 
     try {
-        const querySnapshot = await getDocs(collection(db, "videos"));
-        
-        // Limpiar videos de ejemplo
-        contenedor.innerHTML = '';
-        
-        if (querySnapshot.empty) {
-            contenedor.innerHTML = '<p style="color: white; grid-column: 1/-1; text-align: center;">No hay videos disponibles aún.</p>';
-            return;
-        }
+      await addDoc(collection(db, "oraciones"), {
+        nombre: document.getElementById("nombreInput").value.trim(),
+        peticion: document.getElementById("peticionInput").value.trim(),
+        fecha: serverTimestamp()
+      });
 
-        querySnapshot.forEach((doc) => {
-            const video = doc.data();
-            const videoDiv = document.createElement('div');
-            videoDiv.className = 'video-container';
-            videoDiv.innerHTML = `
-                <iframe src="${video.embedUrl}" frameborder="0" allowfullscreen></iframe>
-            `;
-            contenedor.appendChild(videoDiv);
-        });
-    } catch (error) {
-        console.error("Error al cargar videos:", error);
+      alert("🙏 Tu petición fue enviada. Estamos orando por ti.");
+      formOracion.reset();
+    } catch (e) {
+      alert("❌ No se pudo enviar la petición.");
     }
+  });
 }
 
-// --- CARGAR CATEGORÍAS DE VERSÍCULOS ---
-async function cargarCategorias() {
-    const contenedor = document.getElementById("contenedorBotones");
-    if (!contenedor) return;
+// ======================================================
+// FORMULARIO DE CONTACTO (FIREBASE)
+// ======================================================
+const formContacto = document.getElementById("formContacto");
+if (formContacto) {
+  formContacto.addEventListener("submit", async e => {
+    e.preventDefault();
 
     try {
-        const querySnapshot = await getDocs(collection(db, "categorias"));
-        contenedor.innerHTML = '';
+      await addDoc(collection(db, "contacto"), {
+        nombre: document.getElementById("nombreC").value.trim(),
+        email: document.getElementById("emailC").value.trim(),
+        mensaje: document.getElementById("mensajeC").value.trim(),
+        fecha: serverTimestamp()
+      });
 
-        querySnapshot.forEach((doc) => {
-            const cat = doc.data();
-            const btn = document.createElement("button");
-            btn.textContent = cat.nombre;
-            btn.className = "btn-cat-dinamico";
-            btn.onclick = () => mostrarVersiculo(cat.texto, cat.cita);
-            contenedor.appendChild(btn);
-        });
-    } catch (error) {
-        console.error("Error al cargar categorías:", error);
+      alert("📩 Mensaje enviado correctamente.");
+      formContacto.reset();
+    } catch (e) {
+      alert("❌ Error al enviar el mensaje.");
     }
+  });
 }
 
-function mostrarVersiculo(texto, cita) {
-    const textoEl = document.getElementById("texto-biblico");
-    const citaEl = document.getElementById("cita-biblica");
-    
-    textoEl.style.opacity = "0";
-    citaEl.style.opacity = "0";
-    
-    setTimeout(() => {
-        textoEl.textContent = texto;
-        citaEl.textContent = cita;
-        textoEl.style.opacity = "1";
-        citaEl.style.opacity = "1";
-    }, 300);
-}
-
-// --- VERSÍCULO DEL DÍA ---
-async function cargarVersiculoDelDia() {
-    const textoEl = document.getElementById("texto-dia");
-    const citaEl = document.getElementById("cita-dia");
-    
-    if (!textoEl || !citaEl) return;
-
-    try {
-        const querySnapshot = await getDocs(collection(db, "categorias"));
-        const versiculos = [];
-        
-        querySnapshot.forEach((doc) => {
-            versiculos.push(doc.data());
-        });
-
-        if (versiculos.length > 0) {
-            const random = versiculos[Math.floor(Math.random() * versiculos.length)];
-            textoEl.textContent = random.texto;
-            citaEl.textContent = random.cita;
-        }
-    } catch (error) {
-        console.error("Error al cargar versículo del día:", error);
-    }
-}
-
-// --- MODO OSCURO ---
-const btnModo = document.getElementById("btnModoOscuro");
-const iconoModo = document.getElementById("iconoModo");
-
-if (btnModo) {
-    btnModo.addEventListener("click", () => {
-        document.body.classList.toggle("modo-oscuro");
-        iconoModo.textContent = document.body.classList.contains("modo-oscuro") ? "☀️" : "🌙";
-    });
-}
-
-// --- MÚSICA ---
-const btnMusica = document.getElementById("btnMusicaVersiculos");
-const audio = document.getElementById("audioVersiculos");
-
-if (btnMusica && audio) {
-    btnMusica.addEventListener("click", () => {
-        if (audio.paused) {
-            audio.play();
-            btnMusica.querySelector("span").textContent = "Pausar Música";
-        } else {
-            audio.pause();
-            btnMusica.querySelector("span").textContent = "Música de Paz";
-        }
-    });
-}
-
-// --- FAQ ACORDEÓN ---
-document.querySelectorAll(".faq-question").forEach(btn => {
-    btn.addEventListener("click", () => {
-        const answer = btn.nextElementSibling;
-        const icon = btn.querySelector("i");
-        
-        if (answer.style.display === "block") {
-            answer.style.display = "none";
-            icon.classList.remove("fa-minus");
-            icon.classList.add("fa-plus");
-        } else {
-            answer.style.display = "block";
-            icon.classList.remove("fa-plus");
-            icon.classList.add("fa-minus");
-        }
-    });
-});
-
-// --- INICIALIZACIÓN ---
-document.addEventListener("DOMContentLoaded", () => {
-    cargarCategorias();
-    cargarVersiculoDelDia();
-    cargarVideos(); // ← NUEVA FUNCIÓN PARA CARGAR VIDEOS
+// ======================================================
+// INICIALIZACIÓN GENERAL
+// ======================================================
+window.addEventListener("DOMContentLoaded", () => {
+  cargarVersiculoDiario();
+  inicializarModoOscuro();
+  inicializarMusica();
+  inicializarFAQ();
 });

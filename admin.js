@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDg6RXRQLroOmsmIlziXlv1Rqnp3qaeEoM",
@@ -12,10 +12,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 // --- SEGURIDAD AL CARGAR LA PÁGINA ---
 function verificarAcceso() {
-    const claveCorrecta = "AdminDios2024";
+    const claveCorrecta = "AdminDios2024"; // Asegúrate de que esta sea la que usas
     const pass = prompt("Clave de acceso:");
 
     if (pass === claveCorrecta) {
@@ -26,13 +25,14 @@ function verificarAcceso() {
     }
 }
 
+// Ejecutamos la verificación solo una vez
 verificarAcceso();
 
-// --- GUARDAR CATEGORÍA DE VERSÍCULOS ---
+// --- GUARDAR CATEGORÍA SIN RECARGAR ---
 const formVer = document.getElementById("formVersiculo");
 if (formVer) {
     formVer.addEventListener("submit", async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // ESTO evita que la página se recargue y pida clave de nuevo
         
         const btn = e.target.querySelector("button");
         btn.innerText = "Guardando...";
@@ -52,48 +52,6 @@ if (formVer) {
             alert("❌ Error al guardar. Revisa la consola (F12) o las reglas de Firebase.");
         } finally {
             btn.innerText = "Guardar Categoría";
-            btn.disabled = false;
-        }
-    });
-}
-
-// --- GUARDAR VIDEO DE PRÉDICA ---
-const formVideo = document.getElementById("formVideo");
-if (formVideo) {
-    formVideo.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        
-        const btn = e.target.querySelector("button");
-        btn.innerText = "Guardando...";
-        btn.disabled = true;
-
-        const titulo = document.getElementById("videoTitulo").value;
-        const link = document.getElementById("videoLink").value;
-        
-        // Convertir link de YouTube a formato embed
-        let embedUrl = link;
-        if (link.includes("youtube.com/watch?v=")) {
-            const videoId = link.split("v=")[1].split("&")[0];
-            embedUrl = `https://www.youtube.com/embed/${videoId}`;
-        } else if (link.includes("youtu.be/")) {
-            const videoId = link.split("youtu.be/")[1].split("?")[0];
-            embedUrl = `https://www.youtube.com/embed/${videoId}`;
-        }
-
-        try {
-            await addDoc(collection(db, "videos"), {
-                titulo: titulo,
-                embedUrl: embedUrl,
-                linkOriginal: link,
-                fecha: new Date().toISOString()
-            });
-            alert("✅ ¡Video guardado exitosamente! Se mostrará automáticamente en el index.html");
-            formVideo.reset();
-        } catch (error) {
-            console.error("Error al guardar video:", error);
-            alert("❌ Error al guardar el video. Revisa la consola (F12).");
-        } finally {
-            btn.innerText = "Guardar Video";
             btn.disabled = false;
         }
     });
