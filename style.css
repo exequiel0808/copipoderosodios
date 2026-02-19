@@ -767,26 +767,57 @@ body {
     text-transform: capitalize;
 }
 
-.btn-download {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: var(--white);
-    border: none;
+/* Botones de las apps */
+.app-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.btn-downloader-code {
+    padding: 12px;
+    background: rgba(124, 77, 255, 0.15);
+    color: var(--secondary);
+    border: 2px solid var(--secondary);
     border-radius: var(--border-radius-md);
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: var(--transition-normal);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-downloader-code:hover {
+    background: var(--secondary);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: var(--glow-secondary);
+}
+
+.btn-download {
+    padding: 12px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius-md);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     font-family: 'Poppins', sans-serif;
 }
 
 .btn-download:hover {
-    transform: scale(1.02);
+    transform: translateY(-2px);
     box-shadow: var(--shadow-lg), var(--glow-primary);
 }
 
@@ -1424,6 +1455,15 @@ body {
         grid-template-columns: 1fr;
     }
 
+    .app-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-downloader-code span,
+    .btn-download span {
+        display: inline;
+    }
+
     .category-filters {
         gap: 10px;
     }
@@ -1510,3 +1550,351 @@ body {
         padding: 25px 15px;
     }
 }
+
+/* ===== SECCIÓN CÓMO INSTALAR ===== */
+.how-to-section {
+    padding: 80px 0;
+    background: var(--dark);
+}
+
+.how-to-content {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.how-to-intro {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.how-to-intro p {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.how-to-intro strong {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* Steps Grid */
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.step-card {
+    background: var(--card-bg);
+    border: 2px solid var(--border);
+    border-radius: var(--border-radius-lg);
+    padding: 35px 25px;
+    text-align: center;
+    transition: var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.step-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.1), transparent);
+    transition: var(--transition-slow);
+}
+
+.step-card:hover::before {
+    left: 100%;
+}
+
+.step-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-xl), var(--glow-primary);
+}
+
+.step-number {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--white);
+}
+
+.step-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: var(--border-radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--white);
+}
+
+.step-card h3 {
+    color: var(--white);
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.step-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.step-card strong {
+    color: var(--primary);
+}
+
+/* Tips */
+.how-to-tips {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 25px;
+}
+
+.tip-box {
+    background: rgba(0, 217, 255, 0.08);
+    border: 1px solid rgba(0, 217, 255, 0.3);
+    border-radius: var(--border-radius-md);
+    padding: 25px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.tip-box.warning {
+    background: rgba(255, 107, 107, 0.08);
+    border-color: rgba(255, 107, 107, 0.3);
+}
+
+.tip-box i {
+    font-size: 2rem;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.tip-box.warning i {
+    color: var(--accent);
+}
+
+.tip-box strong {
+    display: block;
+    color: var(--white);
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.tip-box p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ===== MODAL DOWNLOADER ===== */
+.downloader-modal {
+    max-width: 600px;
+}
+
+.downloader-container {
+    padding: 20px 0;
+}
+
+.downloader-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.downloader-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: var(--border-radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 2.5rem;
+    color: var(--white);
+    animation: pulse 2s ease infinite;
+}
+
+.downloader-header h2 {
+    font-size: 1.8rem;
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+.downloader-header p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.downloader-code-box {
+    background: var(--dark);
+    border: 2px solid var(--primary);
+    border-radius: var(--border-radius-md);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.code-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
+.code-display {
+    background: rgba(0, 217, 255, 0.05);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    border-radius: var(--border-radius-sm);
+    padding: 15px;
+    color: var(--white);
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    word-break: break-all;
+    margin-bottom: 15px;
+    user-select: all;
+}
+
+.btn-copy-code {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius-md);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-copy-code:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-lg), var(--glow-primary);
+}
+
+.btn-copy-code.copied {
+    background: linear-gradient(135deg, var(--success), #00C853);
+}
+
+.btn-copy-code.copied i::before {
+    content: "\f00c"; /* fa-check */
+}
+
+.downloader-instructions {
+    background: rgba(124, 77, 255, 0.08);
+    border: 1px solid rgba(124, 77, 255, 0.3);
+    border-radius: var(--border-radius-md);
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.downloader-instructions h3 {
+    color: var(--white);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.downloader-instructions h3 i {
+    color: var(--secondary);
+}
+
+.downloader-instructions ol {
+    margin: 0;
+    padding-left: 25px;
+    color: var(--text-secondary);
+}
+
+.downloader-instructions li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.downloader-instructions li:last-child {
+    margin-bottom: 0;
+}
+
+.downloader-instructions strong {
+    color: var(--primary);
+}
+
+.downloader-tip {
+    background: rgba(0, 230, 118, 0.08);
+    border: 1px solid rgba(0, 230, 118, 0.3);
+    border-radius: var(--border-radius-md);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.downloader-tip i {
+    color: var(--success);
+    font-size: 1.3rem;
+}
+
+.downloader-tip p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Responsive para How To Section */
+@media (max-width: 768px) {
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .how-to-tips {
+        grid-template-columns: 1fr;
+    }
+    
+    .tip-box {
+        min-width: auto;
+    }
+    
+    .downloader-modal {
+        max-width: 95%;
+    }
+    
+    .downloader-code-box {
+        padding: 20px 15px;
+    }
+    
+    .code-display {
+        font-size: 0.85rem;
+        padding: 12px;
+    }
+}
+

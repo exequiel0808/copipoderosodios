@@ -34,6 +34,10 @@
                     <i class="fas fa-mobile-alt"></i> 
                     <span>Aplicaciones</span>
                 </a>
+                <a href="#como-instalar" class="nav-link">
+                    <i class="fas fa-info-circle"></i> 
+                    <span>Cómo Instalar</span>
+                </a>
                 <!-- Este enlace SOLO se muestra si está logueado -->
                 <a href="#subir" class="nav-link admin-only" id="navSubirAPK" style="display: none;">
                     <i class="fas fa-upload"></i> 
@@ -350,6 +354,77 @@
         </div>
     </section>
 
+    <!-- SECCIÓN CÓMO INSTALAR -->
+    <section class="how-to-section" id="como-instalar">
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-tv"></i>
+                <span>Cómo Instalar en TV Box / Fire Stick</span>
+            </h2>
+
+            <div class="how-to-content">
+                <div class="how-to-intro">
+                    <p>Sigue estos pasos para instalar aplicaciones en tu TV Box o Fire Stick usando la app <strong>Downloader</strong></p>
+                </div>
+
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <h3>Instala Downloader</h3>
+                        <p>Desde la tienda de apps de tu dispositivo, busca e instala la aplicación <strong>"Downloader"</strong></p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Obtén el Código</h3>
+                        <p>En cada aplicación, presiona el botón <strong>"Ver Código"</strong> y copia la URL que aparece</p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-icon">
+                            <i class="fas fa-keyboard"></i>
+                        </div>
+                        <h3>Ingresa el Código</h3>
+                        <p>Abre Downloader, pega la URL en el campo de texto y presiona <strong>"Go"</strong></p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <div class="step-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3>Instala la APK</h3>
+                        <p>Una vez descargada, presiona <strong>"Install"</strong> y sigue las instrucciones en pantalla</p>
+                    </div>
+                </div>
+
+                <div class="how-to-tips">
+                    <div class="tip-box">
+                        <i class="fas fa-lightbulb"></i>
+                        <div>
+                            <strong>Consejo:</strong>
+                            <p>Si no tienes Downloader, también puedes descargar desde tu teléfono y transferir el APK a tu TV Box mediante USB o aplicaciones como "Send Files to TV"</p>
+                        </div>
+                    </div>
+                    <div class="tip-box warning">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>
+                            <strong>Seguridad:</strong>
+                            <p>Antes de instalar, asegúrate de habilitar "Fuentes Desconocidas" en la configuración de seguridad de tu dispositivo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
@@ -460,6 +535,56 @@
                 <div id="confirmPasswordError" class="login-error" style="display: none;">
                     <i class="fas fa-exclamation-circle"></i>
                     <span>Contraseña incorrecta. Inténtalo de nuevo.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CÓDIGO DOWNLOADER -->
+    <div id="downloaderModal" class="modal">
+        <div class="modal-overlay" id="downloaderModalOverlay"></div>
+        <div class="modal-content downloader-modal">
+            <button class="modal-close" id="closeDownloaderModal" aria-label="Cerrar modal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="downloader-container">
+                <div class="downloader-header">
+                    <div class="downloader-icon">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <h2 id="downloaderAppName">Nombre de la App</h2>
+                    <p>Código para Downloader en Fire Stick / TV Box</p>
+                </div>
+                
+                <div class="downloader-code-box">
+                    <div class="code-label">
+                        <i class="fas fa-link"></i>
+                        <span>URL de Descarga</span>
+                    </div>
+                    <div class="code-display" id="downloaderCodeDisplay">
+                        https://mediafire.com/...
+                    </div>
+                    <button class="btn-copy-code" id="btnCopyCode">
+                        <i class="fas fa-copy"></i>
+                        <span>Copiar Código</span>
+                    </button>
+                </div>
+
+                <div class="downloader-instructions">
+                    <h3><i class="fas fa-list-ol"></i> Instrucciones</h3>
+                    <ol>
+                        <li>Abre la app <strong>Downloader</strong> en tu TV Box / Fire Stick</li>
+                        <li>En el campo de URL, pega el código de arriba</li>
+                        <li>Presiona <strong>"Go"</strong> para iniciar la descarga</li>
+                        <li>Una vez descargado, presiona <strong>"Install"</strong></li>
+                        <li>¡Listo! Ya puedes usar la aplicación</li>
+                    </ol>
+                </div>
+
+                <div class="downloader-tip">
+                    <i class="fas fa-info-circle"></i>
+                    <p>Si no tienes Downloader instalado, descárgalo desde la tienda de apps de tu dispositivo</p>
                 </div>
             </div>
         </div>
