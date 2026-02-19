@@ -1,481 +1,226 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APK Store - Descarga Apps para Fire Stick</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <title>Poderoso es Dios | Un Espacio de Fe</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-android"></i>
-                <span>APK<strong>Store</strong></span>
-            </div>
-            
-            <!-- Menú hamburguesa para móvil -->
-            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
+    <header class="navbar" id="header">
+        <div class="logo">
+            PODEROSO<span>DIOS</span>
+        </div>
+
+        <nav class="nav-links" id="navMenu">
+            <a href="#inicio">Inicio</a>
+            <a href="#identidad">Identidad</a>
+            <a href="#versiculos">Versículos</a>
+            <a href="#predicas">Prédicas</a>
+            <a href="#fe">Fe</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+
+        <div class="header-actions">
+            <button id="btnModoOscuro" class="btn-modo-oscuro">
+                <span id="iconoModo">🌙</span>
             </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="inicio" style="display: flex; flex-direction: column; align-items: center;">
             
-            <div class="nav-links" id="navLinks">
-                <a href="#inicio" class="nav-link">
-                    <i class="fas fa-home"></i> 
-                    <span>Inicio</span>
-                </a>
-                <a href="#apps" class="nav-link">
-                    <i class="fas fa-mobile-alt"></i> 
-                    <span>Aplicaciones</span>
-                </a>
-                <!-- Este enlace SOLO se muestra si está logueado -->
-                <a href="#subir" class="nav-link admin-only" id="navSubirAPK" style="display: none;">
-                    <i class="fas fa-upload"></i> 
-                    <span>Subir APK</span>
-                </a>
-                <!-- Botón de admin si NO está logueado -->
-                <button class="btn-admin" id="btnAdminNav" style="display: flex;">
-                    <i class="fas fa-key"></i> 
-                    <span>Admin</span>
-                </button>
-                <!-- Botón de logout si SÍ está logueado -->
-                <button class="btn-logout" id="btnLogoutNav" style="display: none;">
-                    <i class="fas fa-sign-out-alt"></i> 
-                    <span>Cerrar Sesión</span>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- HERO SECTION -->
-    <section class="hero" id="inicio">
-        <div class="hero-background">
-            <div class="circle-gradient circle-1"></div>
-            <div class="circle-gradient circle-2"></div>
-            <div class="circle-gradient circle-3"></div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-badge">
-                <i class="fas fa-star"></i>
-                <span>La mejor tienda de APKs</span>
-            </div>
-            <h1 class="hero-title">
-                <i class="fas fa-rocket"></i> 
-                Bienvenido a <span class="gradient-text">APK Store</span>
-            </h1>
-            <p class="hero-subtitle">Descarga las mejores aplicaciones para tu Fire Stick, Android TV y más dispositivos</p>
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <div class="stat-icon">
-                        <i class="fas fa-download"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="totalDownloads" class="counter">0</h3>
-                        <p>Descargas Totales</p>
-                    </div>
+            <div class="versiculo-del-dia" style="width: 100%; position: relative;">
+                
+                <div class="control-musica" style="display: flex; justify-content: flex-end; padding: 20px 5% 0 0;">
+                    <button class="btn-musica" id="btnMusicaVersiculos">
+                        <i class="fas fa-music"></i> <span>Música de Paz</span>
+                    </button>
+                    <audio id="audioVersiculos" loop>
+                        <source src="https://www.bensound.com/bensound-music/bensound-memories.mp3" type="audio/mpeg">
+                    </audio>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-icon">
-                        <i class="fas fa-mobile-alt"></i>
+
+                <div class="versiculo-dia-container" style="text-align: center; padding: 20px 5% 40px 5%;">
+                    <span class="versiculo-dia-etiqueta">
+                        <i class="fas fa-star"></i> Palabra de Vida
+                    </span>
+                    <p id="texto-dia" class="versiculo-dia-texto" style="font-size: 2.2rem; max-width: 100%;">
+                        Cargando palabra de esperanza...
+                    </p>
+                    <span id="cita-dia" class="versiculo-dia-cita"></span>
+                </div>
+            </div>
+
+            <div class="hero-content" style="text-align: center; margin-top: 20px;">
+                <span class="pre-title">BIENVENIDO</span>
+                <h1>Dios es Amor</h1>
+                <p>Un espacio sagrado para fortalecer tu fe, encontrar esperanza y descansar profundamente en Su Palabra eterna.</p>
+                <div class="hero-btns">
+                    <a href="#versiculos" class="btn-gold">📖 LEER PALABRA</a>
+                    <a href="#oracion" class="btn-outline">🙏 PEDIR ORACIÓN</a>
+                    
+                </div>
+            </div>
+        </section>
+
+
+        <section class="section" id="identidad">
+            <div class="container">
+                <h2 class="title-gold">Nuestra Identidad</h2>
+                <div class="grid-identidad">
+                    <div class="about-card">
+                        <i class="fas fa-cross card-icon"></i>
+                        <h3>Misión</h3>
+                        <p>Glorificar a Dios a través de la proclamación fiel de Su Palabra y el servicio al prójimo en amor y verdad.</p>
                     </div>
-                    <div class="stat-info">
-                        <h3 id="totalApps" class="counter">0</h3>
-                        <p>Aplicaciones</p>
+                    <div class="about-card">
+                        <i class="fas fa-dove card-icon"></i>
+                        <h3>Visión</h3>
+                        <p>Ser una comunidad que refleja la luz de Cristo, transformando vidas mediante el Evangelio en todo el mundo.</p>
                     </div>
                 </div>
             </div>
-            <a href="#apps" class="btn-hero">
-                <span>Explorar Apps</span>
-                <i class="fas fa-arrow-down"></i>
-            </a>
-        </div>
-    </section>
+        </section>
 
-    <!-- BUSCADOR Y FILTROS -->
-    <section class="search-section">
-        <div class="container">
-            <div class="search-header">
-                <h2><i class="fas fa-search"></i> Buscar Aplicaciones</h2>
-                <p id="searchResults" class="search-results-text">Mostrando todas las aplicaciones</p>
-            </div>
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Buscar por nombre o descripción...">
-                <button class="search-clear" id="searchClear" style="display: none;">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="category-filters">
-                <button class="category-btn active" data-category="todas">
-                    <i class="fas fa-th"></i> 
-                    <span>Todas</span>
-                </button>
-                <button class="category-btn" data-category="streaming">
-                    <i class="fas fa-tv"></i> 
-                    <span>Streaming</span>
-                </button>
-                <button class="category-btn" data-category="juegos">
-                    <i class="fas fa-gamepad"></i> 
-                    <span>Juegos</span>
-                </button>
-                <button class="category-btn" data-category="utilidades">
-                    <i class="fas fa-tools"></i> 
-                    <span>Utilidades</span>
-                </button>
-                <button class="category-btn" data-category="otros">
-                    <i class="fas fa-ellipsis-h"></i> 
-                    <span>Otros</span>
-                </button>
-            </div>
-        </div>
-    </section>
-                    <i class="fas fa-tv"></i> 
-                    <span>Streaming</span>
-                </button>
-                <button class="category-btn" data-category="juegos">
-                    <i class="fas fa-gamepad"></i> 
-                    <span>Juegos</span>
-                </button>
-                <button class="category-btn" data-category="utilidades">
-                    <i class="fas fa-tools"></i> 
-                    <span>Utilidades</span>
-                </button>
-                <button class="category-btn" data-category="otros">
-                    <i class="fas fa-ellipsis-h"></i> 
-                    <span>Otros</span>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- LISTADO DE APLICACIONES -->
-    <section class="apps-section" id="apps">
-        <div class="container">
-            <h2 class="section-title">
-                <i class="fas fa-fire"></i> 
-                <span>Aplicaciones Disponibles</span>
-            </h2>
-            <div id="appsGrid" class="apps-grid">
-                <!-- Las apps se cargarán dinámicamente aquí -->
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Cargando aplicaciones...</p>
+        <section class="section" id="versiculos" style="background-color: #f4f7f6;">
+            <div class="container">
+                <h2 class="title-gold">Alimento para el Alma</h2>
+                <div class="categorias-container" id="contenedorBotones"></div>
+                <div class="about-card card-versiculo">
+                    <p id="texto-biblico" style="transition: opacity 0.3s ease;">Selecciona una categoría para recibir una promesa...</p>
+                    <span id="cita-biblica" style="transition: opacity 0.3s ease; font-weight: 700; color: var(--dorado-lux);"></span>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-   <!-- SECCIÓN SUBIR APK (Solo visible para admins) -->
-   <section class="upload-section" id="subir" style="display: none;">
-        <div class="container">
-            <h2 class="section-title">
-                <i class="fas fa-tools"></i> 
-                <span>Gestión de APKs</span>
-            </h2>
-
-            <!-- Tabs para Subir/Actualizar -->
-            <div class="upload-tabs">
-                <button class="tab-btn active" data-tab="nueva" id="tabNueva">
-                    <i class="fas fa-plus-circle"></i>
-                    <span>Subir Nueva APK</span>
-                </button>
-                <button class="tab-btn" data-tab="actualizar" id="tabActualizar">
-                    <i class="fas fa-edit"></i>
-                    <span>Actualizar APK</span>
-                </button>
+        <section class="section-dark" id="predicas">
+            <div class="container">
+                <h2 class="title-gold" style="color: var(--dorado-lux);">Predicaciones</h2>
+                <div class="predicas-grid">
+                    <div class="video-container">
+                        <iframe src="https://www.youtub.com/embed/xKiBuxEiQyY" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtubecom/embed/xKiBuxEiQyY" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <!-- CONTENIDO TAB: SUBIR NUEVA -->
-            <div id="tabContentNueva" class="tab-content active">
-                <div class="upload-card">
-                    <form id="uploadForm">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label><i class="fas fa-tag"></i> Nombre de la App</label>
-                                <input type="text" id="appName" required placeholder="Ej: Netflix, Spotify...">
-                            </div>
-
-                            <div class="form-group">
-                                <label><i class="fas fa-code-branch"></i> Versión</label>
-                                <input type="text" id="appVersion" required placeholder="Ej: 1.0.5">
-                            </div>
-
-                            <div class="form-group full-width">
-                                <label><i class="fas fa-folder"></i> Categoría</label>
-                                <select id="appCategory" required>
-                                    <option value="">Seleccionar categoría</option>
-                                    <option value="streaming">📺 Streaming</option>
-                                    <option value="juegos">🎮 Juegos</option>
-                                    <option value="utilidades">🔧 Utilidades</option>
-                                    <option value="otros">📦 Otros</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group full-width">
-                                <label><i class="fas fa-link"></i> URL de descarga</label>
-                                <input type="url" id="appURL" required placeholder="https://mediafire.com/file/...">
-                                <small>Sube tu APK a MediaFire, Google Drive o Dropbox</small>
-                            </div>
-
-                            <div class="form-group full-width">
-                                <label><i class="fas fa-tv"></i> Código Downloader</label>
-                                <input type="text" id="appCodigoDownloader" required placeholder="Ej: 2170677">
-                                <small>Genera tu código en: <a href="https://troypoint.com/downloader-codes/" target="_blank" style="color: var(--primary);">TROYPOINT Downloader Codes</a></small>
-                            </div>
-
-                            <div class="form-group full-width">
-                                <label><i class="fas fa-align-left"></i> Descripción</label>
-                                <textarea id="appDescription" rows="4" placeholder="Describe la aplicación, sus características principales..."></textarea>
-                            </div>
-
-                            <div class="form-divider full-width">
-                                <span>Imágenes (Opcional)</span>
-                            </div>
-
-                            <div class="form-group full-width">
-                                <label><i class="fas fa-image"></i> Imagen 1 (URL)</label>
-                                <input type="url" id="image1" placeholder="https://ejemplo.com/imagen1.jpg">
-                            </div>
-
-                            <div class="form-group">
-                                <label><i class="fas fa-image"></i> Imagen 2 (URL)</label>
-                                <input type="url" id="image2" placeholder="https://ejemplo.com/imagen2.jpg">
-                            </div>
-
-                            <div class="form-group">
-                                <label><i class="fas fa-image"></i> Imagen 3 (URL)</label>
-                                <input type="url" id="image3" placeholder="https://ejemplo.com/imagen3.jpg">
-                            </div>
+        <section class="section" id="fe">
+            <div class="container">
+                <h2 class="title-gold">Fundamentos de Fe</h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            ¿Quién es Dios? <i class="fas fa-plus"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Dios es el Creador eterno, santo e infinito en amor, quien se ha revelado como Padre, Hijo y Espíritu Santo.</p>
                         </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            ¿Qué es la Salvación? <i class="fas fa-plus"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>La salvación es el regalo gratuito de Dios a través de la fe en Jesucristo, Su único Hijo, para perdón de pecados.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                        <button type="submit" class="btn-upload">
-                            <i class="fas fa-plus-circle"></i> 
-                            <span>Agregar Aplicación</span>
+        <section class="section-oracion" id="oracion">
+            <div class="container">
+                <div class="oracion-header">
+                    <i class="fas fa-praying-hands oracion-icon"></i>
+                    <h2 class="oracion-titulo">¿Deseas que oremos por ti?</h2>
+                    <p class="oracion-subtitulo">Dios escucha cada clamor. Déjanos tu petición abajo.</p>
+                </div>
+
+                <div class="oracion-form-wrapper">
+                    <form id="formOracion" class="oracion-form">
+                        <div class="oracion-input-group">
+                            <input type="text" placeholder="Tu nombre completo" required>
+                        </div>
+                        <div class="oracion-input-group">
+                            <textarea rows="5" placeholder="Escribe aquí tu motivo de oración..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-oracion">
+                            Enviar petición 🙏
                         </button>
                     </form>
                 </div>
             </div>
+        </section>
 
-            <!-- CONTENIDO TAB: ACTUALIZAR APK -->
-            <div id="tabContentActualizar" class="tab-content">
-                <div class="upload-card">
-                    <!-- Selector de APK -->
-                    <div class="apk-selector-section">
-                        <h3><i class="fas fa-list"></i> Selecciona la APK a Actualizar</h3>
-                        <div class="form-group">
-                            <label><i class="fas fa-mobile-alt"></i> Aplicación</label>
-                            <select id="apkSelector" required>
-                                <option value="">Selecciona una aplicación...</option>
-                            </select>
+        <section class="section" id="contacto">
+            <div class="container">
+                <h2 class="title-gold">Contáctanos</h2>
+                <div class="contacto-wrapper">
+                    <div class="contacto-info-box">
+                        <div class="info-item-lux">
+                            <i class="fas fa-envelope-open-text"></i>
+                            <div>
+                                <h4>Escríbenos</h4>
+                                <p>contacto@poderosodios.com</p>
+                            </div>
+                        </div>
+                        <div class="info-item-lux" style="margin-top: 30px;">
+                            <i class="fas fa-praying-hands"></i>
+                            <div>
+                                <h4>Peticiones</h4>
+                                <p>Estamos listos para orar por ti las 24 horas.</p>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Formulario de actualización (oculto hasta seleccionar) -->
-                    <div id="updateFormContainer" style="display: none;">
-                        <div class="update-info">
-                            <i class="fas fa-info-circle"></i>
-                            <p>Modifica los campos que desees actualizar</p>
-                        </div>
-
-                        <form id="updateForm">
-                            <input type="hidden" id="updateAppId">
-                            
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label><i class="fas fa-tag"></i> Nombre de la App</label>
-                                    <input type="text" id="updateAppName" required placeholder="Ej: Netflix, Spotify...">
-                                </div>
-
-                                <div class="form-group">
-                                    <label><i class="fas fa-code-branch"></i> Versión</label>
-                                    <input type="text" id="updateAppVersion" required placeholder="Ej: 1.0.5">
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <label><i class="fas fa-folder"></i> Categoría</label>
-                                    <select id="updateAppCategory" required>
-                                        <option value="">Seleccionar categoría</option>
-                                        <option value="streaming">📺 Streaming</option>
-                                        <option value="juegos">🎮 Juegos</option>
-                                        <option value="utilidades">🔧 Utilidades</option>
-                                        <option value="otros">📦 Otros</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <label><i class="fas fa-link"></i> URL de descarga</label>
-                                    <input type="url" id="updateAppURL" required placeholder="https://mediafire.com/file/...">
-                                    <small>Sube tu APK a MediaFire, Google Drive o Dropbox</small>
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <label><i class="fas fa-tv"></i> Código Downloader</label>
-                                    <input type="text" id="updateCodigoDownloader" required placeholder="Ej: 2170677">
-                                    <small>Genera tu código en: <a href="https://troypoint.com/downloader-codes/" target="_blank" style="color: var(--primary);">TROYPOINT Downloader Codes</a></small>
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <label><i class="fas fa-align-left"></i> Descripción</label>
-                                    <textarea id="updateAppDescription" rows="4" placeholder="Describe la aplicación, sus características principales..."></textarea>
-                                </div>
-
-                                <div class="form-divider full-width">
-                                    <span>Imágenes (Opcional)</span>
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <label><i class="fas fa-image"></i> Imagen 1 (URL)</label>
-                                    <input type="url" id="updateImage1" placeholder="https://ejemplo.com/imagen1.jpg">
-                                </div>
-
-                                <div class="form-group">
-                                    <label><i class="fas fa-image"></i> Imagen 2 (URL)</label>
-                                    <input type="url" id="updateImage2" placeholder="https://ejemplo.com/imagen2.jpg">
-                                </div>
-
-                                <div class="form-group">
-                                    <label><i class="fas fa-image"></i> Imagen 3 (URL)</label>
-                                    <input type="url" id="updateImage3" placeholder="https://ejemplo.com/imagen3.jpg">
-                                </div>
+                    <div class="contacto-form-card">
+                        <form id="formContactoLux">
+                            <div class="input-group-lux">
+                                <label>Nombre Completo</label>
+                                <input type="text" placeholder="Tu nombre..." required>
                             </div>
-
-                            <div class="form-actions">
-                                <button type="submit" class="btn-upload">
-                                    <i class="fas fa-save"></i> 
-                                    <span>Actualizar Aplicación</span>
-                                </button>
-                                <button type="button" class="btn-delete" id="btnDeleteApp">
-                                    <i class="fas fa-trash"></i> 
-                                    <span>Eliminar APK</span>
-                                </button>
+                            <div class="input-group-lux">
+                                <label>Correo Electrónico</label>
+                                <input type="email" placeholder="tu@email.com" required>
                             </div>
+                            <div class="input-group-lux">
+                                <label>¿En qué podemos ayudarte?</label>
+                                <textarea rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn-gold-block">
+                                Enviar Mensaje con Fe
+                            </button>
                         </form>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                </div> 
+            </div> 
+        </section>
+    </main>
 
-    <!-- FOOTER -->
-    <footer class="footer">
+    <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <i class="fas fa-android"></i>
-                    <span>APK<strong>Store</strong></span>
-                </div>
-                <p class="footer-description">Tu tienda confiable de aplicaciones APK para Fire Stick y Android TV</p>
-                
-                <div class="footer-links">
-                    <a href="#inicio"><i class="fas fa-home"></i> Inicio</a>
-                    <a href="#apps"><i class="fas fa-mobile-alt"></i> Apps</a>
-                    <a href="https://github.com" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                </div>
-
-                <div class="footer-warning">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <div>
-                        <strong>Advertencia de Seguridad:</strong>
-                        <small>Descarga aplicaciones solo de fuentes confiables. Verifica siempre los permisos antes de instalar cualquier APK en tu dispositivo.</small>
-                    </div>
-                </div>
-
-                <div class="footer-bottom">
-                    <p>&copy; 2026 APK Store. Todos los derechos reservados.</p>
-                </div>
+            <div class="logo">PODEROSO<span>DIOS</span></div>
+            <p>Llevando la Palabra de Vida con excelencia y amor.</p>
+            <div class="social-links" style="margin-top: 25px; font-size: 1.5rem;">
+                <a href="#" style="color: var(--dorado-lux); margin: 0 15px;"><i class="fab fa-facebook"></i></a>
+                <a href="#" style="color: var(--dorado-lux); margin: 0 15px;"><i class="fab fa-instagram"></i></a>
             </div>
+            <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.5;">
+                &copy; 2025 Poderoso es Dios. Todos los derechos reservados.
+            </p>
         </div>
     </footer>
-
-    <!-- MODAL DE CONTRASEÑA -->
-    <div id="passwordModal" class="modal">
-        <div class="modal-overlay" id="modalOverlay"></div>
-        <div class="modal-content login-modal">
-            <button class="modal-close" id="closePasswordModal" aria-label="Cerrar modal">
-                <i class="fas fa-times"></i>
-            </button>
-            
-            <div class="login-container">
-                <div class="login-header">
-                    <div class="login-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h2>Acceso Administrador</h2>
-                    <p>Ingresa la contraseña para gestionar las APKs</p>
-                </div>
-                
-                <form id="passwordForm">
-                    <div class="form-group">
-                        <label><i class="fas fa-key"></i> Contraseña</label>
-                        <div class="password-input-wrapper">
-                            <input type="password" id="adminPassword" required placeholder="Ingresa la contraseña" autocomplete="off">
-                            <button type="button" class="toggle-password" id="togglePassword">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="btn-submit">
-                        <i class="fas fa-sign-in-alt"></i> 
-                        <span>Verificar e Ingresar</span>
-                    </button>
-                </form>
-                
-                <div id="passwordError" class="login-error" style="display: none;">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <span>Contraseña incorrecta. Inténtalo de nuevo.</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL DE CONFIRMACIÓN DE CONTRASEÑA (para actualizar/eliminar) -->
-    <div id="confirmPasswordModal" class="modal">
-        <div class="modal-overlay" id="confirmModalOverlay"></div>
-        <div class="modal-content login-modal">
-            <button class="modal-close" id="closeConfirmPasswordModal" aria-label="Cerrar modal">
-                <i class="fas fa-times"></i>
-            </button>
-            
-            <div class="login-container">
-                <div class="login-header">
-                    <div class="login-icon" id="confirmIcon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <h2 id="confirmTitle">Confirmar Acción</h2>
-                    <p id="confirmMessage">Ingresa la contraseña de administrador para continuar</p>
-                </div>
-                
-                <form id="confirmPasswordForm">
-                    <div class="form-group">
-                        <label><i class="fas fa-key"></i> Contraseña</label>
-                        <div class="password-input-wrapper">
-                            <input type="password" id="confirmAdminPassword" required placeholder="Ingresa la contraseña" autocomplete="off">
-                            <button type="button" class="toggle-password" id="toggleConfirmPassword">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="btn-submit">
-                        <i class="fas fa-check-circle"></i> 
-                        <span>Confirmar</span>
-                    </button>
-                </form>
-                
-                <div id="confirmPasswordError" class="login-error" style="display: none;">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <span>Contraseña incorrecta. Inténtalo de nuevo.</span>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script type="module" src="script.js"></script>
 </body>
